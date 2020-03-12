@@ -61,9 +61,11 @@ void QTS::run() {
 
 void QTS::measure(int gen) {
     worstParticle->fitness = INT_MAX;
+    double random;
     for (int i = 0; i < INDIVIDUAL; i++) {
         for (int j = 0; j < model->NUM_OF_STOCK; j++) {
-            if ((double) rand() / RAND_MAX < betaMatrix[j]) {
+            random = (double) rand() / RAND_MAX;
+            if (random < betaMatrix[j]) {
                 particle[i].binarySolution[j] = 1;
             } else {
                 particle[i].binarySolution[j] = 0;

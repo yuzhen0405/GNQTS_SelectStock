@@ -133,7 +133,6 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
     Logger logger_allAlign("../log/allAlign.csv", 20);
 
     double totalBalance = 0; // 買不了的總餘額
-    double risk = 0; //每日risk
 
     /* allot fund */
     int num = 0;
@@ -169,7 +168,7 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
             amount[i] = 0;
         }
         if (binarySolution[i] == 1) {
-            amount[i] = avgFund / (stock[i].price[0] * SHARE * (1 + FEE));
+            amount[i] = avgFund / (stock[i].price[0] * SHARE + stock[i].price[0] * (SHARE * FEE));
         }
     }
 
@@ -179,7 +178,7 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
         if (binarySolution[i] == 0) {
             balance[i] = 0.0;
         } else {
-            balance[i] = avgFund - (stock[i].price[0] * SHARE * (1 + FEE)) * amount[i];
+            balance[i] = avgFund - amount[i] * stock[i].price[0] * SHARE - amount[i] * stock[i].price[0] * SHARE * FEE;
             totalBalance += balance[i];
         }
     }
@@ -205,23 +204,17 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
         }
     }
     /*******************************************************************************/
-    /* calc first real FS */
-    for (int i = 0; i < NUM_OF_STOCK; i++) {
-        if (binarySolution[i] == 1) {
-            stock[i].fs[0] = avgFund - fee[i];
-        } else {
-            stock[i].fs[0] = 0;
-        }
-    }
 
     /* calc individual real FS */
     for (int i = 0; i < NUM_OF_STOCK; i++) {
         for (int j = 0; j < NUM_OF_DAY; j++) {
             if (binarySolution[i] == 1) {
                 if (j == 0) {
-                    stock[i].fs[j] = avgFund - fee[i];
+                    stock[i].fs[j] = avgFund - stock[i].price[0] * amount[i] * SHARE * FEE;
                 } else {
-                    stock[i].fs[j] = stock[i].price[j] * amount[i] * SHARE * (1 - (FEE + TAX)) + balance[i];
+                    stock[i].fs[j] =
+                            stock[i].price[j] * amount[i] * SHARE - stock[i].price[j] * amount[i] * SHARE * FEE -
+                            stock[i].price[j] * amount[i] * SHARE * TAX + balance[i];
                 }
             } else {
                 stock[i].fs[j] = 0.0;
@@ -256,8 +249,8 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
     logger_realFS.writeLine("");
     /*******************************************************************************/
     /* calc M */
-    double tmpMFraction = 0;
-    double tmpMDenominator = 0;
+    double tmpMFraction = 0.0;
+    int tmpMDenominator = 0;
     for (int i = 0; i < NUM_OF_DAY; i++) {
         tmpMFraction += (i + 1) * realFS[i] - (i + 1) * FUND;
         tmpMDenominator += (i + 1) * (i + 1);
@@ -265,22 +258,21 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
     double m = tmpMFraction / tmpMDenominator;
 
     /* calc Yi */
+    /* calc risk */
+    double risk = 0.0;
     double *Yi = new double[NUM_OF_DAY];
     for (int i = 0; i < NUM_OF_DAY; i++) {
         Yi[i] = 0.0;
         Yi[i] += m * (i + 1) + FUND;
-    }
-    /* calc risk */
-    for (int i = 0; i < NUM_OF_DAY; i++) {
         risk += (realFS[i] - Yi[i]) * (realFS[i] - Yi[i]);
     }
     risk = sqrt(risk / NUM_OF_DAY);
     double trendValue;
     /* calc trend value */
-    if (m > 0) {
-        trendValue = m / risk;
-    } else if (m < 0) {
+    if (m < 0) {
         trendValue = m * risk;
+    } else if (m > 0) {
+        trendValue = m / risk;
     }
 
     /*******************************************************************************/
