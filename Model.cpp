@@ -269,11 +269,11 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
     risk = sqrt(risk / NUM_OF_DAY);
     double trendValue;
     /* calc trend value */
-    if (m < 0) {
-        trendValue = m * risk;
-    } else if (m > 0) {
+//    if (m < 0) {
+//        trendValue = m * risk;
+//    } else if (m > 0) {
         trendValue = m / risk;
-    }
+//    }
 
     /*******************************************************************************/
     logger_expectFS.writeComma(m);
