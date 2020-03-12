@@ -62,6 +62,7 @@ void QTS::run() {
 void QTS::measure(int gen) {
     worstParticle->fitness = INT_MAX;
     double random;
+    double tmp = 0.0;
     for (int i = 0; i < INDIVIDUAL; i++) {
         for (int j = 0; j < model->NUM_OF_STOCK; j++) {
             random = (double) rand() / RAND_MAX;
@@ -91,33 +92,41 @@ void QTS::measure(int gen) {
 }
 
 void QTS::update(int gen) {
-    for (int i = 0; i < model->NUM_OF_STOCK; i++) {
-        if (gBestParticle->binarySolution[i] == 1 && worstParticle->binarySolution[i] == 0) {
-            betaMatrix[i] += ROTATE_ANGLE;
-        } else if (worstParticle->binarySolution[i] == 1 && gBestParticle->binarySolution[i] == 0) {
-            betaMatrix[i] -= ROTATE_ANGLE;
-        }
-    }
+//    for (int i = 0; i < model->NUM_OF_STOCK; i++) {
+//        if (gBestParticle->binarySolution[i] == 1 && worstParticle->binarySolution[i] == 0) {
+//            betaMatrix[i] += ROTATE_ANGLE;
+//        } else if (worstParticle->binarySolution[i] == 1 && gBestParticle->binarySolution[i] == 0) {
+//            betaMatrix[i] -= ROTATE_ANGLE;
+//        }
+//    }
 }
 
 void QTS::mutate(int gen) {
     for (int i = 0; i < model->NUM_OF_STOCK; i++) {
-        if (betaMatrix[i] < 0.5 && gBestParticle->binarySolution[i] == 1 &&
-            worstParticle->binarySolution[i] == 0) {
-            betaMatrix[i] = 1 - betaMatrix[i] - ROTATE_ANGLE;
-        } else if (betaMatrix[i] > 0.5 && worstParticle->binarySolution[i] == 1 &&
-                   gBestParticle->binarySolution[i] == 0) {
-            betaMatrix[i] = 1 - betaMatrix[i] + ROTATE_ANGLE;
+        if (gBestParticle->binarySolution[i] == 0 && worstParticle->binarySolution[i] == 1) {
+            if (betaMatrix[i] > 0.5) {
+                betaMatrix[i] = 1 - betaMatrix[i];
+                betaMatrix[i] = betaMatrix[i] - ROTATE_ANGLE;
+            } else if (betaMatrix[i] <= 0.5) {
+                betaMatrix[i] = betaMatrix[i] - ROTATE_ANGLE;
+            }
         }
-    }
-    /*******************************************************************************/
-    Logger logger_update("../log/update.csv", 4);
+        if (gBestParticle->binarySolution[i] == 1 && worstParticle->binarySolution[i] == 0) {
+            if (betaMatrix[i] < 0.5) {
+                betaMatrix[i] = 1 - betaMatrix[i];
+                betaMatrix[i] = betaMatrix[i] + ROTATE_ANGLE;
+            } else if (betaMatrix[i] >= 0.5) {
+                betaMatrix[i] = betaMatrix[i] + ROTATE_ANGLE;
+            }
+        }
+        /*******************************************************************************/
+        Logger logger_update("../log/update.csv", 4);
 
-    for (int i = 0; i < model->NUM_OF_STOCK; i++) {
-        logger_update.writeComma(betaMatrix[i]);
+        for (int i = 0; i < model->NUM_OF_STOCK; i++) {
+            logger_update.writeComma(betaMatrix[i]);
+        }
+        logger_update.writeLine("");
+        /*******************************************************************************/
     }
-    logger_update.writeLine("");
-    /*******************************************************************************/
 }
-
 
