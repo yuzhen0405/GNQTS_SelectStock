@@ -4,8 +4,6 @@
 
 #include "QTS.h"
 
-Logger logger_update("../log/update.csv", 4);
-
 int bestGen = -1;
 int bestPar = -1;
 int HW = -1;
@@ -34,6 +32,8 @@ QTS::QTS(Model *m) {
         betaMatrix[i] = 0.5;
     }
     /*******************************************************************************/
+    Logger logger_update("../log/update.csv", 4);
+
     for (int i = 0; i < model->NUM_OF_STOCK; i++) {
         logger_update.writeComma(i);
     }
@@ -109,6 +109,8 @@ void QTS::mutate(int gen) {
         }
     }
     /*******************************************************************************/
+    Logger logger_update("../log/update.csv", 4);
+
     for (int i = 0; i < model->NUM_OF_STOCK; i++) {
         logger_update.writeComma(betaMatrix[i]);
     }
