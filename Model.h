@@ -21,7 +21,6 @@ public:
 
     ~Model();
 
-//    double getFitness(int *binarySolution, Stock *s);
     double getFitness(int *binarySolution, int gen,int individual, int HW);
 
     int NUM_OF_STOCK;
