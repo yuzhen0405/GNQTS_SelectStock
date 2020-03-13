@@ -8,8 +8,8 @@
 #include "Model.h"
 #include "Stock.h"
 
-#define GENERATION 100
-#define INDIVIDUAL 10
+#define GENERATION 1
+#define INDIVIDUAL 1
 
 using namespace std;
 
