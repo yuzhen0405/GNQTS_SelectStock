@@ -14,6 +14,13 @@ int main() {
 
     srand(114);
 
+    double random;
+    for (int i = 0; i < 100; i++) {
+        for (int j = 0; j < 49; j++) {
+            random = (double) rand() / RAND_MAX;
+        }
+    }
+
     Model *model;
     model = new Model();
 
