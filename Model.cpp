@@ -11,8 +11,8 @@ using namespace std;
 
 
 Model::Model() {
-    readfile();
-    getStock();
+    readfile(0);
+    getStock(0);
 }
 
 Model::~Model() {
