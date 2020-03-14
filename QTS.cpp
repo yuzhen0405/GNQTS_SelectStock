@@ -66,17 +66,17 @@ void QTS::measure(int gen) {
     for (int i = 0; i < INDIVIDUAL; i++) {
         for (int j = 0; j < model->NUM_OF_STOCK; j++) {
             random = (double) rand() / RAND_MAX;
-//            if (random < betaMatrix[j]) {
-//                particle[i].binarySolution[j] = 1;
-//            } else {
-//                particle[i].binarySolution[j] = 0;
-//            }
-            if (j == 3 || j == 4 || j == 15 || j == 16 || j == 17 || j == 18 || j == 20 || j == 21 || j == 32 ||
-                j == 34 || j == 36 || j == 41 || j == 43 || j == 47 || j == 48) {
+            if (random < betaMatrix[j]) {
                 particle[i].binarySolution[j] = 1;
             } else {
                 particle[i].binarySolution[j] = 0;
             }
+//            if (j == 3 || j == 4 || j == 15 || j == 16 || j == 17 || j == 18 || j == 20 || j == 21 || j == 32 ||
+//                j == 34 || j == 36 || j == 41 || j == 43 || j == 47 || j == 48) {
+//                particle[i].binarySolution[j] = 1;
+//            } else {
+//                particle[i].binarySolution[j] = 0;
+//            }
         }
         particle[i].fitness = model->getFitness(particle[i].binarySolution, gen, i, HW);
         if (gBestParticle->fitness < particle[i].fitness) {

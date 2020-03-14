@@ -20,8 +20,8 @@ Model::~Model() {
 }
 
 void Model::readfile() {
-//    ifstream inFile("../data/M2M/train_2009_12(2009 Q1).csv", ios::in);
-    ifstream inFile("../data/M2M/train_2010_01(2010 Q1).csv", ios::in);
+    ifstream inFile("../data/M2M/train_2009_12(2009 Q1).csv", ios::in);
+//    ifstream inFile("../data/M2M/train_2010_01(2010 Q1).csv", ios::in);
 
     string line;
     int countStock = 0;
@@ -50,8 +50,8 @@ void Model::readfile() {
 }
 
 void Model::getStock() {
-//    ifstream inFile("../data/M2M/train_2009_12(2009 Q1).csv", ios::in);
-    ifstream inFile("../data/M2M/train_2010_01(2010 Q1).csv", ios::in);
+    ifstream inFile("../data/M2M/train_2009_12(2009 Q1).csv", ios::in);
+//    ifstream inFile("../data/M2M/train_2010_01(2010 Q1).csv", ios::in);
     string line;
 
     getline(inFile, line);
