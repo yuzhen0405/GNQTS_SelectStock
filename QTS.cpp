@@ -7,7 +7,7 @@
 
 int bestGen = -1;
 int bestPar = -1;
-int HW = -1;
+int HW;
 
 QTS::QTS(Model *m) {
     model = m;
@@ -51,6 +51,7 @@ QTS::~QTS() {
 }
 
 void QTS::run() {
+    HW = -1;
     for (int i = 0; i < GENERATION; i++) {
         QTS::measure(i);
         QTS::update(i);
@@ -65,7 +66,7 @@ void QTS::measure(int gen) {
     double random;
     for (int i = 0; i < INDIVIDUAL; i++) {
         for (int j = 0; j < model->NUM_OF_STOCK; j++) {
-            random = (double)rand() / RAND_MAX;
+            random = (double) rand() / RAND_MAX;
             if (random < betaMatrix[j]) {
                 particle[i].binarySolution[j] = 1;
             } else {

@@ -17,7 +17,7 @@
 
 class Model {
 public:
-    Model();
+    Model(int period);
 
     ~Model();
 
