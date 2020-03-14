@@ -24,6 +24,7 @@ int main() {
     Model *model;
     model = new Model();
 
+//    model->readfile(i);
     QTS qts(model);
     qts.run();
 

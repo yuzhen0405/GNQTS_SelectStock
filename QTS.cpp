@@ -3,6 +3,7 @@
 //
 
 #include "QTS.h"
+#include <climits>
 
 int bestGen = -1;
 int bestPar = -1;

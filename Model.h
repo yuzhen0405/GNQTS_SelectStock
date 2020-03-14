@@ -27,9 +27,9 @@ public:
     int NUM_OF_DAY;
     Stock *stock;
 
-    void readfile();
+    void readfile(int period);
 
-    void getStock();
+    void getStock(int period);
 };
 
 #endif //GNQTS_SELECTSTOCK_MODEL_H
