@@ -62,27 +62,38 @@ void QTS::run() {
 void QTS::measure(int gen) {
     worstParticle->fitness = INT_MAX;
     double random;
-    double tmp = 0.0;
     for (int i = 0; i < INDIVIDUAL; i++) {
         for (int j = 0; j < model->NUM_OF_STOCK; j++) {
-            random = (double) rand() / RAND_MAX;
+            random = (double)rand() / RAND_MAX;
             if (random < betaMatrix[j]) {
                 particle[i].binarySolution[j] = 1;
             } else {
                 particle[i].binarySolution[j] = 0;
             }
-//            if (j == 3 || j == 4 || j == 15 || j == 16 || j == 17 || j == 18 || j == 20 || j == 21 || j == 32 ||
-//                j == 34 || j == 36 || j == 41 || j == 43 || j == 47 || j == 48) {
+//            if (j == 3 || j == 4 || j == 6 || j == 7 || j == 8 || j == 9 || j == 13 || j == 17 || j == 18 || j == 19 ||
+//                j == 20 || j == 22 || j == 24 || j == 25 || j == 26 || j == 30 || j == 31 || j == 32 || j == 37 ||
+//                j == 41 || j == 43 || j == 46 || j == 47) { //train_2009_12(2009 Q1)
+//                if (j == 3 || j == 4 || j == 15 || j == 16 || j == 17 || j == 18 || j == 20 || j == 21 || j == 32 ||
+//                                                   j == 34 || j == 36 || j == 41 || j == 43 || j == 47 || j == 48) { //train_2010_01(2010 Q1)
 //                particle[i].binarySolution[j] = 1;
 //            } else {
 //                particle[i].binarySolution[j] = 0;
 //            }
         }
         particle[i].fitness = model->getFitness(particle[i].binarySolution, gen, i, HW);
+
         if (gBestParticle->fitness < particle[i].fitness) {
-            gBestParticle->fitness = particle[i].fitness;
-            for (int j = 0; j < model->NUM_OF_STOCK; j++) {
-                gBestParticle->binarySolution[j] = particle[i].binarySolution[j];
+            if (gBestParticle->fitness < 0) {
+                particle[i].fitness = 0.0;
+                gBestParticle->fitness = 0.0;
+                for (int j = 0; j < model->NUM_OF_STOCK; j++) {
+                    gBestParticle->binarySolution[j] = 0;
+                }
+            } else {
+                gBestParticle->fitness = particle[i].fitness;
+                for (int j = 0; j < model->NUM_OF_STOCK; j++) {
+                    gBestParticle->binarySolution[j] = particle[i].binarySolution[j];
+                }
             }
             bestGen = gen;
             bestPar = i;
@@ -125,14 +136,14 @@ void QTS::mutate(int gen) {
                 betaMatrix[i] = betaMatrix[i] + ROTATE_ANGLE;
             }
         }
-        /*******************************************************************************/
-        Logger logger_update("../log/update.csv", 4);
-
-        for (int i = 0; i < model->NUM_OF_STOCK; i++) {
-            logger_update.writeComma(betaMatrix[i]);
-        }
-        logger_update.writeLine("");
-        /*******************************************************************************/
     }
+    /*******************************************************************************/
+    Logger logger_update("../log/update.csv", 4);
+
+    for (int i = 0; i < model->NUM_OF_STOCK; i++) {
+        logger_update.writeComma(betaMatrix[i]);
+    }
+    logger_update.writeLine("");
+    /*******************************************************************************/
 }
 
