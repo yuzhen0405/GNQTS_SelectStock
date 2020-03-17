@@ -16,12 +16,16 @@ int main() {
 
     Model *model;
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 96; i++) {
+//        double gbest=-DBL_MAX;
+//        int count = 0;
+//        for
+//        {
         model = new Model(i);
         QTS qts(model);
-//        model->readfile(i);
-//        model->getStock(i);
-        qts.run();
+        qts.run(i);
+
+//        }
     }
 
 

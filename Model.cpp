@@ -179,60 +179,115 @@ void Model::getStock(int period) {
     }
     inFile.close();
 
+    string align_M2M_train[] = {"../log/train_2009_12(2009 Q1).csv", "../log/train_2010_01(2010 Q1).csv",
+                                "../log/train_2010_02(2010 Q1).csv", "../log/train_2010_03(2010 Q1).csv",
+                                "../log/train_2010_04(2010 Q1).csv", "../log/train_2010_05(2010 Q1).csv",
+                                "../log/train_2010_06(2010 Q1).csv", "../log/train_2010_07(2010 Q1).csv",
+                                "../log/train_2010_08(2010 Q1).csv", "../log/train_2010_09(2010 Q1).csv",
+                                "../log/train_2010_10(2010 Q1).csv", "../log/train_2010_11(2010 Q1).csv",
+                                "../log/train_2010_12(2010 Q1).csv", "../log/train_2011_01(2011 Q1).csv",
+                                "../log/train_2011_02(2011 Q1).csv", "../log/train_2011_03(2011 Q1).csv",
+                                "../log/train_2011_04(2011 Q1).csv", "../log/train_2011_05(2011 Q1).csv",
+                                "../log/train_2011_06(2011 Q1).csv", "../log/train_2011_07(2011 Q1).csv",
+                                "../log/train_2011_08(2011 Q1).csv", "../log/train_2011_09(2011 Q1).csv",
+                                "../log/train_2011_10(2011 Q1).csv", "../log/train_2011_11(2011 Q1).csv",
+                                "../log/train_2011_12(2011 Q1).csv", "../log/train_2012_01(2012 Q1).csv",
+                                "../log/train_2012_02(2012 Q1).csv", "../log/train_2012_03(2012 Q1).csv",
+                                "../log/train_2012_04(2012 Q1).csv", "../log/train_2012_05(2012 Q1).csv",
+                                "../log/train_2012_06(2012 Q1).csv", "../log/train_2012_07(2012 Q1).csv",
+                                "../log/train_2012_08(2012 Q1).csv", "../log/train_2012_09(2012 Q1).csv",
+                                "../log/train_2012_10(2012 Q1).csv", "../log/train_2012_11(2012 Q1).csv",
+                                "../log/train_2012_12(2012 Q1).csv", "../log/train_2013_01(2013 Q1).csv",
+                                "../log/train_2013_02(2013 Q1).csv", "../log/train_2013_03(2013 Q1).csv",
+                                "../log/train_2013_04(2013 Q1).csv", "../log/train_2013_05(2013 Q1).csv",
+                                "../log/train_2013_06(2013 Q1).csv", "../log/train_2013_07(2013 Q1).csv",
+                                "../log/train_2013_08(2013 Q1).csv", "../log/train_2013_09(2013 Q1).csv",
+                                "../log/train_2013_10(2013 Q1).csv", "../log/train_2013_11(2013 Q1).csv",
+                                "../log/train_2013_12(2013 Q1).csv", "../log/train_2014_01(2014 Q1).csv",
+                                "../log/train_2014_02(2014 Q1).csv", "../log/train_2014_03(2014 Q1).csv",
+                                "../log/train_2014_04(2014 Q1).csv", "../log/train_2014_05(2014 Q1).csv",
+                                "../log/train_2014_06(2014 Q1).csv", "../log/train_2014_07(2014 Q1).csv",
+                                "../log/train_2014_08(2014 Q1).csv", "../log/train_2014_09(2014 Q1).csv",
+                                "../log/train_2014_10(2014 Q1).csv", "../log/train_2014_11(2014 Q1).csv",
+                                "../log/train_2014_12(2014 Q1).csv", "../log/train_2015_01(2015 Q1).csv",
+                                "../log/train_2015_02(2015 Q1).csv", "../log/train_2015_03(2015 Q1).csv",
+                                "../log/train_2015_04(2015 Q1).csv", "../log/train_2015_05(2015 Q1).csv",
+                                "../log/train_2015_06(2015 Q1).csv", "../log/train_2015_07(2015 Q1).csv",
+                                "../log/train_2015_08(2015 Q1).csv", "../log/train_2015_09(2015 Q1).csv",
+                                "../log/train_2015_10(2015 Q1).csv", "../log/train_2015_11(2015 Q1).csv",
+                                "../log/train_2015_12(2015 Q1).csv", "../log/train_2016_01(2016 Q1).csv",
+                                "../log/train_2016_02(2016 Q1).csv", "../log/train_2016_03(2016 Q1).csv",
+                                "../log/train_2016_04(2016 Q1).csv", "../log/train_2016_05(2016 Q1).csv",
+                                "../log/train_2016_06(2016 Q1).csv", "../log/train_2016_07(2016 Q1).csv",
+                                "../log/train_2016_08(2016 Q1).csv", "../log/train_2016_09(2016 Q1).csv",
+                                "../log/train_2016_10(2016 Q1).csv", "../log/train_2016_11(2016 Q1).csv",
+                                "../log/train_2016_12(2016 Q1).csv", "../log/train_2017_01(2017 Q1).csv",
+                                "../log/train_2017_02(2017 Q1).csv", "../log/train_2017_03(2017 Q1).csv",
+                                "../log/train_2017_04(2017 Q1).csv", "../log/train_2017_05(2017 Q1).csv",
+                                "../log/train_2017_06(2017 Q1).csv", "../log/train_2017_07(2017 Q1).csv",
+                                "../log/train_2017_08(2017 Q1).csv", "../log/train_2017_09(2017 Q1).csv",
+                                "../log/train_2017_10(2017 Q1).csv", "../log/train_2017_11(2017 Q1).csv",
+                                "../log/train_2017_12(2017 Q1).csv"};
 
-    Logger logger_choose("../log/choose.csv", 20);
-    Logger logger_buy("../log/buy.csv", 20);
-    Logger logger_realFS("../log/realFS.csv", 20);
-    Logger logger_expectFS("../log/expectFS.csv", 20);
-    Logger logger_measure("../log/measure.csv", 20);
-    Logger logger_align("../log/align.csv", 20);
+    Logger logger_align(align_M2M_train[period], 20);
 
-    /*******************************************************************************/
-    logger_choose.writeComma("num_of_select");
-    logger_choose.writeComma("avgFund");
-    logger_choose.writeComma("leftover");
-    for (int i = 0; i < NUM_OF_STOCK; i++) {
-        logger_choose.writeComma(i);
-    }
-    logger_choose.writeLine("");
-    /*******************************************************************************/
-    logger_buy.writeComma("stock_symbol");
-    logger_buy.writeComma("amount");
-    logger_buy.writeComma("balance");
-    logger_buy.writeComma("price_per_share");
-    logger_buy.writeComma("fee");
-    logger_buy.writeLine("");
-    /*******************************************************************************/
-    logger_realFS.writeComma("stock_symbol");
-    for (int i = 0; i < NUM_OF_DAY; i++) {
-        logger_realFS.writeComma(i);
-    }
-    logger_realFS.writeLine("");
-    /*******************************************************************************/
-    logger_expectFS.writeComma("slope");
-    logger_expectFS.writeComma("risk");
-    logger_expectFS.writeComma("trend_value");
-    for (int i = 0; i < NUM_OF_DAY; i++) {
-        logger_expectFS.writeComma(i);
-    }
-    logger_expectFS.writeLine("");
-    /*******************************************************************************/
-    for (int i = 0; i < NUM_OF_STOCK; i++) {
-        logger_measure.writeComma(i);
-    }
-    logger_measure.writeLine("");
 }
 
-double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
-    Logger logger_choose("../log/choose.csv", 20);
-    Logger logger_buy("../log/buy.csv", 20);
-    Logger logger_realFS("../log/realFS.csv", 20);
-    Logger logger_expectFS("../log/expectFS.csv", 20);
-    Logger logger_measure("../log/measure.csv", 20);
-    Logger logger_align("../log/align.csv", 20);
+double Model::getFitness(int *binarySolution, int gen, int individual, int HW, int period) {
+    string align_M2M_train[] = {"../log/train_2009_12(2009 Q1).csv", "../log/train_2010_01(2010 Q1).csv",
+                                "../log/train_2010_02(2010 Q1).csv", "../log/train_2010_03(2010 Q1).csv",
+                                "../log/train_2010_04(2010 Q1).csv", "../log/train_2010_05(2010 Q1).csv",
+                                "../log/train_2010_06(2010 Q1).csv", "../log/train_2010_07(2010 Q1).csv",
+                                "../log/train_2010_08(2010 Q1).csv", "../log/train_2010_09(2010 Q1).csv",
+                                "../log/train_2010_10(2010 Q1).csv", "../log/train_2010_11(2010 Q1).csv",
+                                "../log/train_2010_12(2010 Q1).csv", "../log/train_2011_01(2011 Q1).csv",
+                                "../log/train_2011_02(2011 Q1).csv", "../log/train_2011_03(2011 Q1).csv",
+                                "../log/train_2011_04(2011 Q1).csv", "../log/train_2011_05(2011 Q1).csv",
+                                "../log/train_2011_06(2011 Q1).csv", "../log/train_2011_07(2011 Q1).csv",
+                                "../log/train_2011_08(2011 Q1).csv", "../log/train_2011_09(2011 Q1).csv",
+                                "../log/train_2011_10(2011 Q1).csv", "../log/train_2011_11(2011 Q1).csv",
+                                "../log/train_2011_12(2011 Q1).csv", "../log/train_2012_01(2012 Q1).csv",
+                                "../log/train_2012_02(2012 Q1).csv", "../log/train_2012_03(2012 Q1).csv",
+                                "../log/train_2012_04(2012 Q1).csv", "../log/train_2012_05(2012 Q1).csv",
+                                "../log/train_2012_06(2012 Q1).csv", "../log/train_2012_07(2012 Q1).csv",
+                                "../log/train_2012_08(2012 Q1).csv", "../log/train_2012_09(2012 Q1).csv",
+                                "../log/train_2012_10(2012 Q1).csv", "../log/train_2012_11(2012 Q1).csv",
+                                "../log/train_2012_12(2012 Q1).csv", "../log/train_2013_01(2013 Q1).csv",
+                                "../log/train_2013_02(2013 Q1).csv", "../log/train_2013_03(2013 Q1).csv",
+                                "../log/train_2013_04(2013 Q1).csv", "../log/train_2013_05(2013 Q1).csv",
+                                "../log/train_2013_06(2013 Q1).csv", "../log/train_2013_07(2013 Q1).csv",
+                                "../log/train_2013_08(2013 Q1).csv", "../log/train_2013_09(2013 Q1).csv",
+                                "../log/train_2013_10(2013 Q1).csv", "../log/train_2013_11(2013 Q1).csv",
+                                "../log/train_2013_12(2013 Q1).csv", "../log/train_2014_01(2014 Q1).csv",
+                                "../log/train_2014_02(2014 Q1).csv", "../log/train_2014_03(2014 Q1).csv",
+                                "../log/train_2014_04(2014 Q1).csv", "../log/train_2014_05(2014 Q1).csv",
+                                "../log/train_2014_06(2014 Q1).csv", "../log/train_2014_07(2014 Q1).csv",
+                                "../log/train_2014_08(2014 Q1).csv", "../log/train_2014_09(2014 Q1).csv",
+                                "../log/train_2014_10(2014 Q1).csv", "../log/train_2014_11(2014 Q1).csv",
+                                "../log/train_2014_12(2014 Q1).csv", "../log/train_2015_01(2015 Q1).csv",
+                                "../log/train_2015_02(2015 Q1).csv", "../log/train_2015_03(2015 Q1).csv",
+                                "../log/train_2015_04(2015 Q1).csv", "../log/train_2015_05(2015 Q1).csv",
+                                "../log/train_2015_06(2015 Q1).csv", "../log/train_2015_07(2015 Q1).csv",
+                                "../log/train_2015_08(2015 Q1).csv", "../log/train_2015_09(2015 Q1).csv",
+                                "../log/train_2015_10(2015 Q1).csv", "../log/train_2015_11(2015 Q1).csv",
+                                "../log/train_2015_12(2015 Q1).csv", "../log/train_2016_01(2016 Q1).csv",
+                                "../log/train_2016_02(2016 Q1).csv", "../log/train_2016_03(2016 Q1).csv",
+                                "../log/train_2016_04(2016 Q1).csv", "../log/train_2016_05(2016 Q1).csv",
+                                "../log/train_2016_06(2016 Q1).csv", "../log/train_2016_07(2016 Q1).csv",
+                                "../log/train_2016_08(2016 Q1).csv", "../log/train_2016_09(2016 Q1).csv",
+                                "../log/train_2016_10(2016 Q1).csv", "../log/train_2016_11(2016 Q1).csv",
+                                "../log/train_2016_12(2016 Q1).csv", "../log/train_2017_01(2017 Q1).csv",
+                                "../log/train_2017_02(2017 Q1).csv", "../log/train_2017_03(2017 Q1).csv",
+                                "../log/train_2017_04(2017 Q1).csv", "../log/train_2017_05(2017 Q1).csv",
+                                "../log/train_2017_06(2017 Q1).csv", "../log/train_2017_07(2017 Q1).csv",
+                                "../log/train_2017_08(2017 Q1).csv", "../log/train_2017_09(2017 Q1).csv",
+                                "../log/train_2017_10(2017 Q1).csv", "../log/train_2017_11(2017 Q1).csv",
+                                "../log/train_2017_12(2017 Q1).csv"};
+
+    Logger logger_align(align_M2M_train[period], 20);
     Logger logger_allAlign("../log/allAlign.csv", 20);
 
-    double totalBalance = 0; // 買不了的總餘額
+    double totalBalance = 0; // ?R§?§F?∫?`?l√B
 
     /* allot fund */
     int num = 0;
@@ -243,24 +298,7 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
     }
     int avgFund = FUND / num;
     int leftover = FUND - avgFund * num;
-    /*******************************************************************************/
-    for (int i = 0; i < NUM_OF_STOCK; i++) {
-        logger_measure.writeComma(binarySolution[i]);
-    }
-    logger_measure.writeLine("");
-    /*******************************************************************************/
 
-    /*******************************************************************************/
-    logger_choose.writeComma(num);
-    logger_choose.writeComma(avgFund);
-    logger_choose.writeComma(leftover);
-    for (int i = 0; i < NUM_OF_STOCK; i++) {
-        if (binarySolution[i] == 1) {
-            logger_choose.writeComma(stock[i].symbol);
-        }
-    }
-    logger_choose.writeLine("");
-    /*******************************************************************************/
     /* calc amount */
     int *amount = new int[NUM_OF_STOCK];
     for (int i = 0; i < NUM_OF_STOCK; i++) {
@@ -292,18 +330,6 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
             fee[i] = 0.0;
         }
     }
-    /*******************************************************************************/
-    for (int i = 0; i < NUM_OF_STOCK; i++) {
-        if (binarySolution[i] == 1) {
-            logger_buy.writeComma(stock[i].symbol);
-            logger_buy.writeComma(amount[i]);
-            logger_buy.writeComma(balance[i]);
-            logger_buy.writeComma(stock[i].price[0] * SHARE * (1 + FEE));
-            logger_buy.writeComma(fee[i]);
-            logger_buy.writeLine("");
-        }
-    }
-    /*******************************************************************************/
 
     /* calc individual real FS */
     for (int i = 0; i < NUM_OF_STOCK; i++) {
@@ -332,22 +358,7 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
         }
         realFS[i] += leftover;
     }
-    /*******************************************************************************/
-    for (int i = 0; i < NUM_OF_STOCK; i++) {
-        if (binarySolution[i] == 1) {
-            logger_realFS.writeComma(stock[i].symbol);
-            for (int j = 0; j < NUM_OF_DAY; j++) {
-                logger_realFS.writeComma(stock[i].fs[j]);
-            }
-            logger_realFS.writeLine("");
-        }
-    }
-    logger_realFS.writeComma("allFS");
-    for (int i = 0; i < NUM_OF_DAY; i++) {
-        logger_realFS.writeComma(realFS[i]);
-    }
-    logger_realFS.writeLine("");
-    /*******************************************************************************/
+
     /* calc M */
     double tmpMFraction = 0.0;
     int tmpMDenominator = 0;
@@ -375,17 +386,56 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
         trendValue = m * risk;
     }
 
-    /*******************************************************************************/
-    logger_expectFS.writeComma(m);
-    logger_expectFS.writeComma(risk);
-    logger_expectFS.writeComma(trendValue);
-    for (int i = 0; i < NUM_OF_DAY; i++) {
-        logger_expectFS.writeComma(Yi[i]);
-    }
-    logger_expectFS.writeLine("");
-    /*******************************************************************************/
-
     if (HW == 1) {
+        string M2M_train[] = {"../data/M2M/train_2009_12(2009 Q1).csv", "../data/M2M/train_2010_01(2010 Q1).csv",
+                              "../data/M2M/train_2010_02(2010 Q1).csv", "../data/M2M/train_2010_03(2010 Q1).csv",
+                              "../data/M2M/train_2010_04(2010 Q1).csv", "../data/M2M/train_2010_05(2010 Q1).csv",
+                              "../data/M2M/train_2010_06(2010 Q1).csv", "../data/M2M/train_2010_07(2010 Q1).csv",
+                              "../data/M2M/train_2010_08(2010 Q1).csv", "../data/M2M/train_2010_09(2010 Q1).csv",
+                              "../data/M2M/train_2010_10(2010 Q1).csv", "../data/M2M/train_2010_11(2010 Q1).csv",
+                              "../data/M2M/train_2010_12(2010 Q1).csv", "../data/M2M/train_2011_01(2011 Q1).csv",
+                              "../data/M2M/train_2011_02(2011 Q1).csv", "../data/M2M/train_2011_03(2011 Q1).csv",
+                              "../data/M2M/train_2011_04(2011 Q1).csv", "../data/M2M/train_2011_05(2011 Q1).csv",
+                              "../data/M2M/train_2011_06(2011 Q1).csv", "../data/M2M/train_2011_07(2011 Q1).csv",
+                              "../data/M2M/train_2011_08(2011 Q1).csv", "../data/M2M/train_2011_09(2011 Q1).csv",
+                              "../data/M2M/train_2011_10(2011 Q1).csv", "../data/M2M/train_2011_11(2011 Q1).csv",
+                              "../data/M2M/train_2011_12(2011 Q1).csv", "../data/M2M/train_2012_01(2012 Q1).csv",
+                              "../data/M2M/train_2012_02(2012 Q1).csv", "../data/M2M/train_2012_03(2012 Q1).csv",
+                              "../data/M2M/train_2012_04(2012 Q1).csv", "../data/M2M/train_2012_05(2012 Q1).csv",
+                              "../data/M2M/train_2012_06(2012 Q1).csv", "../data/M2M/train_2012_07(2012 Q1).csv",
+                              "../data/M2M/train_2012_08(2012 Q1).csv", "../data/M2M/train_2012_09(2012 Q1).csv",
+                              "../data/M2M/train_2012_10(2012 Q1).csv", "../data/M2M/train_2012_11(2012 Q1).csv",
+                              "../data/M2M/train_2012_12(2012 Q1).csv", "../data/M2M/train_2013_01(2013 Q1).csv",
+                              "../data/M2M/train_2013_02(2013 Q1).csv", "../data/M2M/train_2013_03(2013 Q1).csv",
+                              "../data/M2M/train_2013_04(2013 Q1).csv", "../data/M2M/train_2013_05(2013 Q1).csv",
+                              "../data/M2M/train_2013_06(2013 Q1).csv", "../data/M2M/train_2013_07(2013 Q1).csv",
+                              "../data/M2M/train_2013_08(2013 Q1).csv", "../data/M2M/train_2013_09(2013 Q1).csv",
+                              "../data/M2M/train_2013_10(2013 Q1).csv", "../data/M2M/train_2013_11(2013 Q1).csv",
+                              "../data/M2M/train_2013_12(2013 Q1).csv", "../data/M2M/train_2014_01(2014 Q1).csv",
+                              "../data/M2M/train_2014_02(2014 Q1).csv", "../data/M2M/train_2014_03(2014 Q1).csv",
+                              "../data/M2M/train_2014_04(2014 Q1).csv", "../data/M2M/train_2014_05(2014 Q1).csv",
+                              "../data/M2M/train_2014_06(2014 Q1).csv", "../data/M2M/train_2014_07(2014 Q1).csv",
+                              "../data/M2M/train_2014_08(2014 Q1).csv", "../data/M2M/train_2014_09(2014 Q1).csv",
+                              "../data/M2M/train_2014_10(2014 Q1).csv", "../data/M2M/train_2014_11(2014 Q1).csv",
+                              "../data/M2M/train_2014_12(2014 Q1).csv", "../data/M2M/train_2015_01(2015 Q1).csv",
+                              "../data/M2M/train_2015_02(2015 Q1).csv", "../data/M2M/train_2015_03(2015 Q1).csv",
+                              "../data/M2M/train_2015_04(2015 Q1).csv", "../data/M2M/train_2015_05(2015 Q1).csv",
+                              "../data/M2M/train_2015_06(2015 Q1).csv", "../data/M2M/train_2015_07(2015 Q1).csv",
+                              "../data/M2M/train_2015_08(2015 Q1).csv", "../data/M2M/train_2015_09(2015 Q1).csv",
+                              "../data/M2M/train_2015_10(2015 Q1).csv", "../data/M2M/train_2015_11(2015 Q1).csv",
+                              "../data/M2M/train_2015_12(2015 Q1).csv", "../data/M2M/train_2016_01(2016 Q1).csv",
+                              "../data/M2M/train_2016_02(2016 Q1).csv", "../data/M2M/train_2016_03(2016 Q1).csv",
+                              "../data/M2M/train_2016_04(2016 Q1).csv", "../data/M2M/train_2016_05(2016 Q1).csv",
+                              "../data/M2M/train_2016_06(2016 Q1).csv", "../data/M2M/train_2016_07(2016 Q1).csv",
+                              "../data/M2M/train_2016_08(2016 Q1).csv", "../data/M2M/train_2016_09(2016 Q1).csv",
+                              "../data/M2M/train_2016_10(2016 Q1).csv", "../data/M2M/train_2016_11(2016 Q1).csv",
+                              "../data/M2M/train_2016_12(2016 Q1).csv", "../data/M2M/train_2017_01(2017 Q1).csv",
+                              "../data/M2M/train_2017_02(2017 Q1).csv", "../data/M2M/train_2017_03(2017 Q1).csv",
+                              "../data/M2M/train_2017_04(2017 Q1).csv", "../data/M2M/train_2017_05(2017 Q1).csv",
+                              "../data/M2M/train_2017_06(2017 Q1).csv", "../data/M2M/train_2017_07(2017 Q1).csv",
+                              "../data/M2M/train_2017_08(2017 Q1).csv", "../data/M2M/train_2017_09(2017 Q1).csv",
+                              "../data/M2M/train_2017_10(2017 Q1).csv", "../data/M2M/train_2017_11(2017 Q1).csv",
+                              "../data/M2M/train_2017_12(2017 Q1).csv"};
         logger_align.writeComma("initial_fund");
         logger_align.writeLine(FUND);
         logger_align.writeComma("final_fund");
@@ -454,17 +504,17 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
             logger_align.writeLine(realFS[i]);
         }
 
-
-        logger_allAlign.writeComma("");
+        logger_allAlign.writeComma(period + 1);
         logger_allAlign.writeComma(num);
         for (int i = 0; i < NUM_OF_STOCK; i++) {
             if (binarySolution[i] == 1) {
                 logger_allAlign.write(stock[i].symbol);
                 logger_allAlign.write("(");
                 logger_allAlign.write(i);
-                logger_allAlign.writeComma(")");
+                logger_allAlign.writeSpace(")");
             }
         }
+        logger_allAlign.writeComma("");
         logger_allAlign.writeComma("Gbest");
         if (m < 0) {
             logger_allAlign.writeComma("0");
@@ -478,7 +528,7 @@ double Model::getFitness(int *binarySolution, int gen, int individual, int HW) {
         logger_allAlign.writeComma("find_gBest_round#");
         logger_allAlign.writeComma("1");
         logger_allAlign.writeComma("find_gBest_gen");
-        logger_allAlign.writeComma(gen);
+        logger_allAlign.writeComma(gen + 1);
         logger_allAlign.writeComma("find_gBest_times#");
         logger_allAlign.writeLine("1");
     }

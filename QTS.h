@@ -8,7 +8,7 @@
 #include "Model.h"
 #include "Stock.h"
 
-#define GENERATION 100
+#define GENERATION 10000
 #define INDIVIDUAL 10
 
 using namespace std;
@@ -26,11 +26,9 @@ public:
     Particle *particle;
     Particle *gBestParticle, *worstParticle;
 
-    void run();
+    void run(int period);
 
-    void measure(int gen);
-
-    void update(int gen);
+    void measure(int gen,int period);
 
     void mutate(int gen);
 };
