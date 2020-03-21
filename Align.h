@@ -11,6 +11,9 @@
 
 class Align {
 public:
+    string GENERATION = "100";
+    string ROUND = "1";
+    string PARTICLE = "10";
     int *binarySolution;
     double theta_upper;
     double theta_lower;
@@ -57,11 +60,11 @@ public:
     };
 
     void align(int period) const {
-        Logger logger("../log/" + tag + "/output_" + trainPeriod[period], 20);
+        Logger logger("../log/" + tag + "/Irene_result_" + trainPeriod[period], 20);
         logger.writeComma("Generation");
-//        logger.writeLine(GENERATION);
+        logger.writeLine(GENERATION);
         logger.writeComma("Particle");
-//        logger.writeLine(PARTICLE);
+        logger.writeLine(PARTICLE);
         logger.writeComma("Upper bound of theta");
         logger.writeLine(this->theta_upper);
         logger.writeComma("Lower bound of theta");
@@ -69,7 +72,7 @@ public:
         logger.writeComma("Rotate angle");
         logger.writeLine(this->theta);
         logger.writeComma("Round");
-        logger.writeLine(this->round);
+        logger.writeLine(ROUND);
         logger.writeLine("");
 
         logger.writeComma("Initial fund");
@@ -142,7 +145,8 @@ public:
     };
 
     void allAlign(int period) const {
-        Logger logger("../log/" + tag + "/" + tag + "_final_result.csv", 20);
+        Logger logger(
+                "../log/" + tag + "/" + "(srand114)" + ROUND + "round_" + GENERATION + "gen_" + tag + "_train.csv", 20);
         if (period == 0) {
             logger.writeComma(tag);
             logger.writeComma("Number of chosen");

@@ -9,7 +9,6 @@ int main() {
 
     Model *model = new Model();
 
-
     for (int i = 0; i < numOfPeriod; i++) {
         model->nextPeriod(i);
 
