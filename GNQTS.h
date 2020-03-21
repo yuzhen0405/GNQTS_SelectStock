@@ -24,9 +24,9 @@ public:
     Particle *particle;
     Particle *gBestParticle, *worstParticle;
 
-    double run();
+    int run();
 
-    void measure(int gen);
+    void measure();
 
     void mutate();
 };

@@ -10,7 +10,7 @@ using namespace std;
 
 
 Model::Model() {
-
+    this->align = nullptr;
 }
 
 Model::~Model() {
@@ -90,27 +90,23 @@ void Model::nextPeriod(int period) {
 
     getStock(path);
 
+    delete this->align;
+    this->align = new Align();
+
+    this->align->setStock(this->num_of_stock, this->num_of_day);
+
     for (int i = 0; i < this->num_of_stock; i++) {
+        this->align->stock[i].symbol = this->stock[i].symbol;
         for (int j = 0; j < this->num_of_day; j++) {
             this->stock[i].fs[j] = 0.0;
         }
     }
 }
 
-double Model::getFitness(int *binarySolution, int gen, int HW) {
+double Model::getFitness(int *binarySolution, int HW) {
     if (HW == 1) {
-        align->find_gBest_gen = gen;
         for (int i = 0; i < this->num_of_stock; i++) {
             align->binarySolution[i] = binarySolution[i];
-        }
-    }
-
-    for (int j = 0; j < this->num_of_stock; j++) {
-        align->stock[j].avg_fund = 0;
-        align->balance[j] = 0;
-        for (int k = 0; k < this->num_of_day; k++) {
-            align->stock[j].fs[k] = 0.0;
-            align->FS[k] = 0.0;
         }
     }
 
@@ -139,7 +135,7 @@ double Model::getFitness(int *binarySolution, int gen, int HW) {
         if (binarySolution[i] == 0) {
             amount[i] = 0;
         } else if (binarySolution[i] == 1) {
-            amount[i] = avgFund / (stock[i].price[0] * SHARE + stock[i].price[0] * (SHARE * FEE));
+            amount[i] = floor(avgFund / (stock[i].price[0] * SHARE + stock[i].price[0] * (SHARE * FEE)));
         }
         if (HW == 1) {
             align->amount[i] = amount[i];
@@ -238,6 +234,13 @@ double Model::getFitness(int *binarySolution, int gen, int HW) {
         trendValue = expect_reward / risk;
     } else {
         trendValue = expect_reward * risk;
+    }
+    if (HW == 1) {
+        if (trendValue < 0) {
+            align->gBest = 0;
+        } else {
+            align->gBest = trendValue;
+        }
     }
 
     delete[] amount;

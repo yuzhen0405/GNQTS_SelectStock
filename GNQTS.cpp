@@ -6,10 +6,6 @@
 #include <climits>
 #include <cfloat>
 
-int bestGen;
-int bestPar;
-int HW;
-
 GNQTS::GNQTS(Model *m) {
     this->model = m;
     betaMatrix = new double[model->num_of_stock];
@@ -40,20 +36,22 @@ GNQTS::~GNQTS() {
     delete worstParticle;
 }
 
-double GNQTS::run() {
-    HW = 0;
-    bestGen = 0;
-    bestPar = 0;
-    double gBestFitness;
+int GNQTS::run() {
+    int best_gen = 0;
+    double fitness = -DBL_MAX;
     for (int i = 0; i < GENERATION; i++) {
-        GNQTS::measure(i);
+        GNQTS::measure();
         GNQTS::mutate();
+        if (fitness < this->gBestParticle->fitness) {
+            fitness = this->gBestParticle->fitness;
+            best_gen = i;
+        }
     }
-    gBestFitness = model->getFitness(gBestParticle->binarySolution, bestGen, 1);
-    return gBestFitness;
+    model->getFitness(gBestParticle->binarySolution, 1);
+    return best_gen;
 }
 
-void GNQTS::measure(int gen) {
+void GNQTS::measure() {
     worstParticle->fitness = INT_MAX;
     double random;
     for (int i = 0; i < PARTICLE; i++) {
@@ -66,7 +64,7 @@ void GNQTS::measure(int gen) {
                 particle[i].binarySolution[j] = 0;
             }
         }
-        particle[i].fitness = model->getFitness(particle[i].binarySolution, gen, HW);
+        particle[i].fitness = model->getFitness(particle[i].binarySolution, 0);
 
         if (gBestParticle->fitness < particle[i].fitness) {
             if (particle[i].fitness < 0) {
@@ -80,8 +78,6 @@ void GNQTS::measure(int gen) {
                     gBestParticle->binarySolution[j] = particle[i].binarySolution[j];
                 }
             }
-            bestGen = gen;
-            bestPar = i;
         }
 
         if (worstParticle->fitness > particle[i].fitness) {

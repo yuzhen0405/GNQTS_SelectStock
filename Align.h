@@ -69,7 +69,7 @@ public:
         logger.writeComma("Rotate angle");
         logger.writeLine(this->theta);
         logger.writeComma("Round");
-        logger.writeLine(this->round + 1);
+        logger.writeLine(this->round);
         logger.writeLine("");
 
         logger.writeComma("Initial fund");

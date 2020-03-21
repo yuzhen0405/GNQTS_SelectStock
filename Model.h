@@ -27,7 +27,7 @@ public:
 
     ~Model();
 
-    double getFitness(int *binarySolution, int gen,  int HW);
+    double getFitness(int *binarySolution, int HW);
 
     int num_of_stock;
     int num_of_day;
