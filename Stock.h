@@ -8,6 +8,7 @@
 class Stock {
 public:
     int symbol;
+    double avg_fund;
     double *price;
     double *fs;
 

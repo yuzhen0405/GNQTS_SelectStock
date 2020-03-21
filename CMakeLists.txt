@@ -3,4 +3,4 @@ project(GNQTS_SelectStock)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(GNQTS_SelectStock main.cpp Logger.h Model.cpp Model.h Stock.h Particle.h QTS.cpp QTS.h)
+add_executable(GNQTS_SelectStock main.cpp Logger.h Model.cpp Model.h Stock.h Particle.h GNQTS.cpp GNQTS.h Align.h Period.h)

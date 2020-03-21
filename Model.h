@@ -5,11 +5,15 @@
 #ifndef GNQTS_SELECTSTOCK_MODEL_H
 #define GNQTS_SELECTSTOCK_MODEL_H
 
-#include "Logger.h"
-#include "Stock.h"
 #include "Particle.h"
+#include "Align.h"
+#include "Stock.h"
+#include <string>
 
-#define ROTATE_ANGLE 0.0004
+#define ROUND 1
+#define THETA 0.0004
+#define THETA_UPPER 0.0004;
+#define THETA_LOWER 0.0004;
 #define FEE 0.001425
 #define TAX 0.003
 #define SHARE 1000.0
@@ -17,19 +21,23 @@
 
 class Model {
 public:
-    Model(int period);
+    Align *align;
+
+    Model();
 
     ~Model();
 
-    double getFitness(int *binarySolution, int gen,int individual, int HW,int period);
+    double getFitness(int *binarySolution, int gen,  int HW);
 
-    int NUM_OF_STOCK;
-    int NUM_OF_DAY;
+    int num_of_stock;
+    int num_of_day;
     Stock *stock;
 
-    void readfile(int period);
+    void nextPeriod(int period);
 
-    void getStock(int period);
+    void readfile(const std::string &path);
+
+    void getStock(const std::string &path);
 };
 
 #endif //GNQTS_SELECTSTOCK_MODEL_H
