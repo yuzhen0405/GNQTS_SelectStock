@@ -7,7 +7,7 @@
 
 #include "Model.h"
 
-#define GENERATION 100
+#define GENERATION 10000
 #define PARTICLE 10
 
 class GNQTS {

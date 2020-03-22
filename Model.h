@@ -10,7 +10,7 @@
 #include "Stock.h"
 #include <string>
 
-#define ROUND 1
+#define ROUND 50
 #define THETA 0.0004
 #define THETA_UPPER 0.0004;
 #define THETA_LOWER 0.0004;

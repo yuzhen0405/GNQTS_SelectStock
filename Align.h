@@ -11,8 +11,8 @@
 
 class Align {
 public:
-    string GENERATION = "100";
-    string ROUND = "1";
+    string ROUND = "50";
+    string GENERATION = "10000";
     string PARTICLE = "10";
     int *binarySolution;
     double theta_upper;

@@ -82,6 +82,6 @@ int main() {
     delete model;
 
     auto end = std::chrono::steady_clock::now();
-    std::cout << endl << "Time taken: " << std::chrono::duration<double>(end - start).count() << "s" << std::endl;
+    std::cout << endl << "Time taken: " << std::chrono::duration<double>(end - start).count() << " s" << std::endl;
     return 0;
 }
