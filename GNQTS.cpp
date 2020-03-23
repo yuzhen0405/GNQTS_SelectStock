@@ -16,7 +16,7 @@ GNQTS::GNQTS(Model *m) {
     worstParticle = new Particle();
     worstParticle->setSize(model->num_of_stock);
 
-    gBestParticle->fitness = -INT_MAX;
+    gBestParticle->fitness = -DBL_MAX;
     particle = new Particle[PARTICLE];
 
     for (int i = 0; i < PARTICLE; i++) {
@@ -26,7 +26,6 @@ GNQTS::GNQTS(Model *m) {
     for (int i = 0; i < model->num_of_stock; i++) {
         betaMatrix[i] = 0.5;
     }
-    gBestParticle->fitness = -DBL_MAX;
 }
 
 GNQTS::~GNQTS() {
@@ -52,7 +51,7 @@ int GNQTS::run() {
 }
 
 void GNQTS::measure() {
-    worstParticle->fitness = INT_MAX;
+    worstParticle->fitness = DBL_MAX;
     double random;
     for (int i = 0; i < PARTICLE; i++) {
         for (int j = 0; j < model->num_of_stock; j++) {
