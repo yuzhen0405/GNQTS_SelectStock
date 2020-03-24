@@ -21,6 +21,7 @@ public:
     ~GNQTS();
 
     double *betaMatrix;
+
     Particle *particle;
     Particle *gBestParticle, *worstParticle;
 

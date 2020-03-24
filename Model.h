@@ -29,6 +29,8 @@ public:
 
     double getFitness(int *binarySolution, int HW);
 
+    double one_to_two(int *binarySolution, int stock_a, int stock_b, int allot_a, int allot_b, int HW);
+
     int num_of_stock;
     int num_of_day;
     Stock *stock;
