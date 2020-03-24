@@ -24,16 +24,16 @@ void test(int a, int b, int c) {
             particle.binarySolution[i] = 0;
 
         for (int i = 0; i <= 10000; i++) {
-            double fitness = model->one_to_two(particle.binarySolution, stock_a, stock_b, i, 10000 - i, -1);
+            double fitness = model->one_to_two(particle.binarySolution, stock_a, stock_b, i, 10000 - i, 0);
             if (best < fitness) {
                 best = fitness;
                 allot_a = i;
             }
         }
     }
-    model->one_to_two(particle.binarySolution, stock_a, stock_b, 0, 0, 6);
-    std::cout << "|" << tag << ", period " << period + 1;
-    model->one_to_two(particle.binarySolution, stock_a, stock_b, allot_a, 10000 - allot_a, 7);
+    model->one_to_two(particle.binarySolution, stock_a, stock_b, 0, 0, 5);
+    std::cout << "|" << tag << ", period " << period + 1 << " <br> " << trainPeriod[period];
+    model->one_to_two(particle.binarySolution, stock_a, stock_b, allot_a, 10000 - allot_a, 6);
 }
 
 int main() {

@@ -104,7 +104,6 @@ void Model::nextPeriod(int period) {
 }
 
 double Model::getFitness(int *binarySolution, int HW) {
-    cout << stock[24].symbol << endl;
     if (HW == 1) {
         for (int i = 0; i < this->num_of_stock; i++) {
             align->binarySolution[i] = binarySolution[i];
@@ -254,68 +253,95 @@ double Model::getFitness(int *binarySolution, int HW) {
 
 /******************************************************************************************************/
 double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allot_a, int allot_b, int HW) {
-    for (int i = 0; i < num_of_stock; i++) {
-        if (i == stock_a || i == stock_b) {
-            binarySolution[i] = 1;
-        } else {
-            binarySolution[i] = 0;
+    if (HW == 1) {
+        for (int i = 0; i < this->num_of_stock; i++) {
+            align->binarySolution[i] = binarySolution[i];
         }
     }
 
-    stock[stock_a].avg_fund = FUND * allot_a / 10000;
-    stock[stock_b].avg_fund = FUND * allot_b / 10000;
-    int leftover = FUND - stock[stock_a].avg_fund - stock[stock_b].avg_fund;
+    /* allot fund */
+    for (int i = 0; i < this->num_of_stock; i++) {
+        if (i != stock_a && i != stock_b) {
+            stock[i].avg_fund = 0;
+        } else if (i == stock_a) {
+            stock[i].avg_fund = FUND * allot_a / 10000;
+        } else if (i == stock_b) {
+            stock[i].avg_fund = FUND * allot_b / 10000;
+        }
+    }
+    int tmp = 0;
+    for (int i = 0; i < this->num_of_stock; i++) {
+        tmp += stock[i].avg_fund;
+    }
+    int leftover = FUND - tmp;
 
     /* calc amount */
-    int amount_a = 0;
-    int amount_b = 0;
-    amount_a = floor(
-            stock[stock_a].avg_fund / (stock[stock_a].price[0] * SHARE + stock[stock_a].price[0] * (SHARE * FEE)));
-    amount_b = floor(
-            stock[stock_b].avg_fund / (stock[stock_b].price[0] * SHARE + stock[stock_b].price[0] * (SHARE * FEE)));
+    int *amount = new int[num_of_stock];
+    for (int i = 0; i < num_of_stock; i++) {
+        if (binarySolution[i] == 0) {
+            amount[i] = 0;
+        } else if (binarySolution[i] == 1) {
+            amount[i] = floor(stock[i].avg_fund / (stock[i].price[0] * SHARE + stock[i].price[0] * (SHARE * FEE)));
+        }
+    }
     if (HW == 1) {
-        return floor(FUND / (stock[stock_a].price[0] * SHARE + stock[stock_a].price[0] * (SHARE * FEE)));
+        return amount[stock_a];
     }
     if (HW == 2) {
-        return floor(FUND / (stock[stock_b].price[0] * SHARE + stock[stock_b].price[0] * (SHARE * FEE)));
+        return amount[stock_b];
     }
     /* calc balance */
     double totalBalance = 0.0;
     double *balance = new double[num_of_stock];
-    balance[stock_a] = stock[stock_a].avg_fund - amount_a * stock[stock_a].price[0] * SHARE -
-                       amount_a * stock[stock_a].price[0] * SHARE * FEE;
-    balance[stock_b] = stock[stock_b].avg_fund - amount_b * stock[stock_b].price[0] * SHARE -
-                       amount_b * stock[stock_b].price[0] * SHARE * FEE;
-    totalBalance = balance[stock_a] + balance[stock_b];
+    for (int i = 0; i < num_of_stock; i++) {
+        if (binarySolution[i] == 0) {
+            balance[i] = 0.0;
+        } else {
+            balance[i] = stock[i].avg_fund - amount[i] * stock[i].price[0] * SHARE -
+                         amount[i] * stock[i].price[0] * SHARE * FEE;
+            totalBalance += balance[i];
+        }
+    }
 
     /* calc fee */
     double *fee = new double[num_of_stock];
-    fee[stock_a] = stock[stock_a].price[0] * amount_a * SHARE * FEE;
-    fee[stock_b] = stock[stock_b].price[0] * amount_b * SHARE * FEE;
-
-    /* calc individual real FS */
-    stock[stock_a].fs[0] = stock[stock_a].avg_fund - stock[stock_a].price[0] * amount_a * SHARE * FEE;
-    stock[stock_b].fs[0] = stock[stock_b].avg_fund - stock[stock_b].price[0] * amount_b * SHARE * FEE;
-
-    for (int j = 0; j < num_of_day; j++) {
-        stock[stock_a].fs[j] =
-                stock[stock_a].price[j] * amount_a * SHARE - stock[stock_a].price[j] * amount_a * SHARE * FEE -
-                stock[stock_a].price[j] * amount_a * SHARE * TAX + balance[stock_a];
-        stock[stock_b].fs[j] =
-                stock[stock_b].price[j] * amount_b * SHARE - stock[stock_b].price[j] * amount_b * SHARE * FEE -
-                stock[stock_b].price[j] * amount_b * SHARE * TAX + balance[stock_b];
+    for (int i = 0; i < num_of_stock; i++) {
+        if (binarySolution[i] == 1) {
+            fee[i] = stock[i].price[0] * amount[i] * SHARE * FEE;
+        } else {
+            fee[i] = 0.0;
+        }
     }
 
-/* calc real FS */
+    /* calc individual real FS */
+    for (int i = 0; i < num_of_stock; i++) {
+        for (int j = 0; j < num_of_day; j++) {
+            if (binarySolution[i] == 1) {
+                if (j == 0) {
+                    stock[i].fs[j] = stock[i].avg_fund - stock[i].price[0] * amount[i] * SHARE * FEE;
+                } else {
+                    stock[i].fs[j] =
+                            stock[i].price[j] * amount[i] * SHARE - stock[i].price[j] * amount[i] * SHARE * FEE -
+                            stock[i].price[j] * amount[i] * SHARE * TAX + balance[i];
+                }
+            } else {
+                stock[i].fs[j] = 0.0;
+            }
+        }
+    }
+
+    /* calc real FS */
     double *realFS = new double[num_of_day];
 
     for (int i = 0; i < num_of_day; i++) {
         realFS[i] = 0.0;
-        realFS[i] = stock[stock_a].fs[i] + stock[stock_b].fs[i];
+        for (int j = 0; j < num_of_stock; j++) {
+            realFS[i] += stock[j].fs[i];
+        }
         realFS[i] += leftover;
     }
 
-/* calc M, (expect_reward), (slope) */
+    /* calc M, (expect_reward), (slope) */
     double tmpMFraction = 0.0;
     int tmpMDenominator = 0;
     for (int i = 0; i < num_of_day; i++) {
@@ -326,8 +352,9 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
     if (HW == 3) {
         return expect_reward;
     }
-/* calc Yi */
-/* calc risk */
+
+    /* calc Yi */
+    /* calc risk */
     double risk = 0.0;
     double *Yi = new double[num_of_day];
     for (int i = 0; i < num_of_day; i++) {
@@ -339,31 +366,25 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
     if (HW == 4) {
         return risk;
     }
+
     double trendValue;
-/* calc trend value */
+    /* calc trend value */
     if (expect_reward > 0) {
         trendValue = expect_reward / risk;
     } else {
         trendValue = expect_reward * risk;
     }
-    if (HW == 6) {
-        std::cout << "|" << stock[stock_a].symbol << "(" << stock_a << ")  |  " << stock[stock_b].symbol << "("
-                  << stock_b << ")  |  " << endl
-                  << "|:------:|:--------:|:--------:|" <<
-                  endl;
 
-        cout << "| fund | 10000000  |" << "10000000 |" <<
-             endl;
+    if (HW == 5) {
+        cout << "|" << stock[stock_a].symbol << "(" << stock_a << ")  |  " << stock[stock_b].symbol << "("
+             << stock_b << ")  |  " << endl << "|:------:|:--------:|:--------:|" << endl;
+        cout << "| fund | 10000000  |" << "10000000 |" << endl;
         cout << "| amount |" << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 1) << " | "
              << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 2) << " |" << endl;
-        cout << "| expect return |  " << setprecision(15)
-             << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 3)
-             << " | "
-             << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 3) << "|" << endl;
-        cout << "| risk |" << setprecision(15)
-             << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 4) << " | "
+        cout << "| expect return |  " << setprecision(15) << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 3)
+             << " | " << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 3) << "|" << endl;
+        cout << "| risk |" << setprecision(15) << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 4) << " | "
              << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 4) << "|" << endl;
-
         cout << "| fitness |" << setprecision(15)
              << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) << " | "
              << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) << " |" << endl;
@@ -391,7 +412,8 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
                      << "| <font color=red> "
                      << setprecision(15) << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) /
                                             (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) +
-                                             one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) << " </font> |" << endl
+                                             one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) << " </font> |"
+                     << endl
                      << endl;
             }
 
@@ -401,7 +423,7 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
         }
     }
 
-    if (HW == 7) {
+    if (HW == 6) {
         std::cout << "|" << stock[stock_a].symbol << "(" << stock_a << ")  |  " << stock[stock_b].symbol << "("
                   << stock_b << ")  |  " << endl
                   << "|:------:|:--------:|:--------:|" <<
@@ -415,19 +437,15 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
                  << (float) allot_b / 100 << " % </font>|"
                  << endl;
         }
-
-
         cout << "|fund|" << stock[stock_a].avg_fund << " |" << stock[stock_b].avg_fund << "|" <<
              endl;
-        cout << "|amount|" << amount_a << "| " << amount_b << "|" << endl <<
+        cout << "|amount|" << amount[stock_a] << "| " << amount[stock_b] << "|" << endl <<
              endl;
-        double tmpExpect_return = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 3);
 
         cout << "> <font color=red> expect return: " << setprecision(15) << expect_reward << endl;
-        double tmpRisk = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 4);
         cout << "> risk: " << setprecision(20) << risk
              << endl;
-        double tmpTrendValue = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 5);
+        double tmpTrendValue = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0);
         if (tmpTrendValue >= 0 && trendValue >= 0) {
             cout << "> trend value: " << setprecision(15) << trendValue << "</font>" << endl << ">" << endl
                  << "... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ..."
