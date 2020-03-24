@@ -7,7 +7,7 @@
 
 #include <string>
 
-#define PERIOD 3
+#define PERIOD 8
 /* PERIOD
  *   0: Y2Y
  *   1: H2H

@@ -363,9 +363,20 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
         cout << "| risk |<font color=red>" << setprecision(15)
              << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 4) << "</font> | "
              << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 4) << "|" << endl;
-        cout << "| fitness |<font color=red>" << setprecision(15)
-             << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) << "</font> | "
-             << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) << " |" << endl;
+
+        if (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) >
+            one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) {
+            cout << "| fitness |<font color=red>" << setprecision(15)
+                 << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) << "</font> | "
+                 << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) << " |" << endl;
+        }
+        if (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) >
+            one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) {
+            cout << "| fitness |" << setprecision(15)
+                 << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) << " |<font color=red> "
+                 << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) << " </font>|" << endl;
+        }
+
         if (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) >= 0 &&
             one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) >= 0) {
 
@@ -396,31 +407,15 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
              endl;
         cout << "|amount|" << amount_a << "| " << amount_b << "|" << endl <<
              endl;
-        string tmp = "+";
         double tmpExpect_return = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 3);
 
-        if (expect_reward - tmpExpect_return < 0) {
-            tmp = "-";
-        }
-        cout << "> <font color=red> expect return: " << setprecision(15) << expect_reward << " ( ==" << tmp << "== "
-             << abs(expect_reward - tmpExpect_return) << ") " << endl;
+        cout << "> <font color=red> expect return: " << setprecision(15) << expect_reward << endl;
         double tmpRisk = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 4);
-        tmp = "+";
-        if (risk - tmpRisk < 0) {
-            tmp = "-";
-        }
-        cout << "> risk: " << setprecision(20) << risk << " ( ==" << tmp << "== " << abs(risk - tmpRisk) << ") "
+        cout << "> risk: " << setprecision(20) << risk
              << endl;
         double tmpTrendValue = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 5);
-        tmp = "+";
-        if (trendValue - tmpTrendValue < 0) {
-            tmp = "-";
-        }
         if (tmpTrendValue >= 0 && trendValue >= 0) {
-            cout << "> trend value: " << setprecision(15) << trendValue << " ( ==" << tmp << "== "
-                 <<
-                 abs(trendValue
-                     - tmpTrendValue) << ") " << "</font>" << endl << ">" << endl
+            cout << "> trend value: " << setprecision(15) << trendValue << "</font>" << endl << ">" << endl
                  << "... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ..."
                  <<
                  endl;

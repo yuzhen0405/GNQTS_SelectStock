@@ -2,10 +2,10 @@
 #include <cfloat>
 #include <chrono>
 
-void test(int a, int b) {
+void test(int a, int b, int c) {
     int period = a - 1;
     int stock_a = b;
-    int stock_b = 0;
+    int stock_b = c;
     double best = -DBL_MAX;
     int allot_a = 0;
     Model *model = new Model();
@@ -17,21 +17,17 @@ void test(int a, int b) {
     particle.setSize(model->num_of_stock);
     Align align;
     align.setStock(model->num_of_stock, model->num_of_day);
-    for (int j = 0; j < model->num_of_stock; j++) {
-        for (int i = 0; i < model->num_of_stock; i++) {
-            if (i == stock_a || i == j)
-                particle.binarySolution[i] = 1;
-            else
-                particle.binarySolution[i] = 0;
-        }
-        if (stock_a != j) {
-            for (int i = 0; i <= 10000; i++) {
-                double fitness = model->one_to_two(particle.binarySolution, stock_a, j, i, 10000 - i, -1);
-                if (best < fitness) {
-                    best = fitness;
-                    allot_a = i;
-                    stock_b = j;
-                }
+    for (int i = 0; i < model->num_of_stock; i++) {
+        if (i == stock_a || i == stock_b)
+            particle.binarySolution[i] = 1;
+        else
+            particle.binarySolution[i] = 0;
+
+        for (int i = 0; i <= 10000; i++) {
+            double fitness = model->one_to_two(particle.binarySolution, stock_a, stock_b, i, 10000 - i, -1);
+            if (best < fitness) {
+                best = fitness;
+                allot_a = i;
             }
         }
     }
@@ -43,54 +39,70 @@ void test(int a, int b) {
 int main() {
     auto start = std::chrono::steady_clock::now();
     if (tag == "H2H") {
-        test(13, 24);
+        test(2, 5, 39);
+    } else if (tag == "Q2Q") {
+        test(2, 4, 5);
+        test(8, 21, 24);
+        test(20, 2, 7);
     } else if (tag == "M2M") {
-        test(9, 4);
-        test(15, 44);
-        test(21, 26);
-        test(25, 42);
-        test(58, 7);
-        test(67, 38);
-        test(68, 24);
-        test(69, 2);
-        test(72, 45);
-        test(73, 16);
+        test(3, 4, 13);
+        test(14, 4, 17);
+        test(24, 10, 45);
+        test(29, 0, 37);
+        test(35, 0, 42);
+        test(43, 33, 46);
+        test(64, 10, 35);
+        test(66, 10, 18);
+        test(70, 27, 47);
+        test(84, 3, 35);
     } else if (tag == "Y2H") {
-        test(14, 24);
+        test(6, 18, 45);
     } else if (tag == "Y2Q") {
-        test(27, 24);
+        test(11, 18, 45);
     } else if (tag == "Y2M") {
-        test(74, 24);
-        test(78, 24);
-        test(79, 24);
+        test(30, 18, 45);
+        test(33, 22, 45);
+        test(77, 2, 24);
     } else if (tag == "H2Q") {
-        test(25, 24);
+        test(3, 5, 39);
+        test(24, 2, 33);
     } else if (tag == "H2M") {
-        test(71, 2);
-        test(72, 24);
-        test(73, 24);
+        test(7, 5, 39);
+        test(8, 5, 39);
+        test(11, 24, 40);
+        test(21, 40, 41);
+        test(23, 24, 45);
+        test(24, 24, 45);
+        test(27, 45, 46);
+        test(60, 7, 20);
+        test(70, 2, 33);
+        test(74, 16, 24);
     } else if (tag == "Q2M") {
-        test(6, 27);
-        test(8, 40);
-        test(23, 26);
-        test(59, 20);
-        test(60, 42);
-        test(69, 24);
-        test(74, 16);
+        test(3, 20, 28);
+        test(4, 4, 5);
+        test(17, 0, 44);
+        test(22, 21, 24);
+        test(24, 16, 45);
+        test(27, 42, 48);
+        test(30, 15, 46);
+        test(58, 2, 7);
     } else if (tag == "H#") {
-        test(14, 24);
+        test(3, 5, 39);
+    } else if (tag == "Q#") {
+        test(5, 4, 5);
+        test(11, 21, 24);
+        test(23, 2, 7);
     } else if (tag == "M#") {
-        test(6, 25);
-        test(20, 4);
-        test(26, 44);
-        test(32, 26);
-        test(36, 42);
-        test(69, 7);
-        test(78, 38);
-        test(79, 24);
-        test(80, 2);
-        test(83, 45);
-        test(84, 16);
+        test(14, 4, 13);
+        test(25, 4, 17);
+        test(35, 10, 45);
+        test(40, 0, 37);
+        test(46, 0, 42);
+        test(54, 33, 46);
+        test(75, 10, 35);
+        test(77, 10, 18);
+        test(81, 27, 47);
+        test(95, 3, 35);
     }
 
 //    srand(114);
