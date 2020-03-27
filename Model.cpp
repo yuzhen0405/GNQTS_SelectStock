@@ -252,8 +252,11 @@ double Model::getFitness(int *binarySolution, int HW) {
 }
 
 /******************************************************************************************************/
-double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allot_a, int allot_b, int HW) {
-    if (HW == 1) {
+double
+Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int stock_c, int stock_d, int allot_a,
+                  int allot_b, int allot_c, int allot_d, int HW) {
+    if (HW == 6) {
+        align->initial_fund = 10000000;
         for (int i = 0; i < this->num_of_stock; i++) {
             align->binarySolution[i] = binarySolution[i];
         }
@@ -261,19 +264,27 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
 
     /* allot fund */
     for (int i = 0; i < this->num_of_stock; i++) {
-        if (i != stock_a && i != stock_b) {
-            stock[i].avg_fund = 0;
-        } else if (i == stock_a) {
-            stock[i].avg_fund = FUND * allot_a / 10000;
-        } else if (i == stock_b) {
-            stock[i].avg_fund = FUND * allot_b / 10000;
+        stock[i].avg_fund = 0.0;
+        if (i == stock_a) {
+            stock[i].avg_fund = FUND * allot_a / PERCENT;
+        }
+        if (i == stock_b) {
+            stock[i].avg_fund = FUND * allot_b / PERCENT;
+        }
+        if (i == stock_c) {
+            stock[i].avg_fund = FUND * allot_c / PERCENT;
+        }
+        if (i == stock_d) {
+            stock[i].avg_fund = FUND * allot_d / PERCENT;
+        }
+        if (HW == 6) {
+            align->stock[i].avg_fund = stock[i].avg_fund;
         }
     }
-    int tmp = 0;
+    int leftover = FUND;
     for (int i = 0; i < this->num_of_stock; i++) {
-        tmp += stock[i].avg_fund;
+        leftover -= stock[i].avg_fund;
     }
-    int leftover = FUND - tmp;
 
     /* calc amount */
     int *amount = new int[num_of_stock];
@@ -283,12 +294,21 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
         } else if (binarySolution[i] == 1) {
             amount[i] = floor(stock[i].avg_fund / (stock[i].price[0] * SHARE + stock[i].price[0] * (SHARE * FEE)));
         }
+        if (HW == 6) {
+            align->amount[i] = amount[i];
+        }
     }
-    if (HW == 1) {
+    if (HW == 0) {
         return amount[stock_a];
     }
-    if (HW == 2) {
+    if (HW == 1) {
         return amount[stock_b];
+    }
+    if (HW == 2) {
+        return amount[stock_c];
+    }
+    if (HW == 3) {
+        return amount[stock_d];
     }
     /* calc balance */
     double totalBalance = 0.0;
@@ -300,6 +320,10 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
             balance[i] = stock[i].avg_fund - amount[i] * stock[i].price[0] * SHARE -
                          amount[i] * stock[i].price[0] * SHARE * FEE;
             totalBalance += balance[i];
+        }
+        if (HW == 6) {
+            align->balance[i] = 0.0;
+            align->balance[i] = balance[i];
         }
     }
 
@@ -327,6 +351,10 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
             } else {
                 stock[i].fs[j] = 0.0;
             }
+            if (HW == 6) {
+                align->stock[i].fs[j] = 0.0;
+                align->stock[i].fs[j] = stock[i].fs[j];
+            }
         }
     }
 
@@ -339,6 +367,12 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
             realFS[i] += stock[j].fs[i];
         }
         realFS[i] += leftover;
+        if (HW == 6) {
+            align->FS[i] = 0.0;
+            align->final_fund = 0.0;
+            align->FS[i] = realFS[i];
+            align->final_fund = realFS[i];
+        }
     }
 
     /* calc M, (expect_reward), (slope) */
@@ -349,7 +383,11 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
         tmpMDenominator += (i + 1) * (i + 1);
     }
     double expect_reward = tmpMFraction / tmpMDenominator;
-    if (HW == 3) {
+    if (HW == 6) {
+        align->expect_reward = 0.0;
+        align->expect_reward = expect_reward;
+    }
+    if (HW == 4) {
         return expect_reward;
     }
 
@@ -363,7 +401,11 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
         risk += (realFS[i] - Yi[i]) * (realFS[i] - Yi[i]);
     }
     risk = sqrt(risk / num_of_day);
-    if (HW == 4) {
+    if (HW == 6) {
+        align->risk = 0.0;
+        align->risk = risk;
+    }
+    if (HW == 5) {
         return risk;
     }
 
@@ -374,89 +416,10 @@ double Model::one_to_two(int *binarySolution, int stock_a, int stock_b, int allo
     } else {
         trendValue = expect_reward * risk;
     }
-
-    if (HW == 5) {
-        cout << "|" << stock[stock_a].symbol << "(" << stock_a << ")  |  " << stock[stock_b].symbol << "("
-             << stock_b << ")  |  " << endl << "|:------:|:--------:|:--------:|" << endl;
-        cout << "| fund | 10000000  |" << "10000000 |" << endl;
-        cout << "| amount |" << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 1) << " | "
-             << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 2) << " |" << endl;
-        cout << "| expect return |  " << setprecision(15) << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 3)
-             << " | " << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 3) << "|" << endl;
-        cout << "| risk |" << setprecision(15) << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 4) << " | "
-             << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 4) << "|" << endl;
-        cout << "| fitness |" << setprecision(15)
-             << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) << " | "
-             << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) << " |" << endl;
-
-        if (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) >= 0 &&
-            one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) >= 0) {
-            if (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) >
-                one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) {
-                cout << "| fitness ratio | <font color=red> " << setprecision(15)
-                     << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) /
-                        (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) +
-                         one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0))
-                     << " </font> | "
-                     << setprecision(15) << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) /
-                                            (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) +
-                                             one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) << "|" << endl
-                     << endl;
-            }
-            if (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) <
-                one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) {
-                cout << "| fitness ratio |" << setprecision(15)
-                     << one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) /
-                        (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) +
-                         one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0))
-                     << "| <font color=red> "
-                     << setprecision(15) << one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0) /
-                                            (one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0) +
-                                             one_to_two(binarySolution, stock_a, stock_b, 0, 10000, 0)) << " </font> |"
-                     << endl
-                     << endl;
-            }
-
-
-        } else {
-            cout << "| fitness ratio | ==X== | ==X== |" << endl << endl;
-        }
-    }
-
     if (HW == 6) {
-        std::cout << "|" << stock[stock_a].symbol << "(" << stock_a << ")  |  " << stock[stock_b].symbol << "("
-                  << stock_b << ")  |  " << endl
-                  << "|:------:|:--------:|:--------:|" <<
-                  endl;
-        if (allot_a > allot_b) {
-            cout << "|ratio|<font color=red>" << setprecision(4) << (float) allot_a / 100 << " %  </font>|"
-                 << (float) allot_b / 100 << " %|"
-                 << endl;
-        } else if (allot_a < allot_b) {
-            cout << "|ratio|" << setprecision(4) << (float) allot_a / 100 << " % |<font color=red>"
-                 << (float) allot_b / 100 << " % </font>|"
-                 << endl;
-        }
-        cout << "|fund|" << stock[stock_a].avg_fund << " |" << stock[stock_b].avg_fund << "|" <<
-             endl;
-        cout << "|amount|" << amount[stock_a] << "| " << amount[stock_b] << "|" << endl <<
-             endl;
-
-        cout << "> <font color=red> expect return: " << setprecision(15) << expect_reward << endl;
-        cout << "> risk: " << setprecision(20) << risk
-             << endl;
-        double tmpTrendValue = one_to_two(binarySolution, stock_a, stock_b, 10000, 0, 0);
-        if (tmpTrendValue >= 0 && trendValue >= 0) {
-            cout << "> trend value: " << setprecision(15) << trendValue << "</font>" << endl << ">" << endl
-                 << "... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ..."
-                 <<
-                 endl;
-        } else {
-            cout << "> trend value: " << setprecision(15) << trendValue << "</font>" << endl << ">" << endl
-                 << "... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ..."
-                 <<
-                 endl;
-        }
+        align->gBest = 0.0;
+        align->gBest = trendValue;
+        align->align(period, to_string(stock_a));
     }
 
     delete[] balance;
