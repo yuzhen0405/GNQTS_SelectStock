@@ -19,18 +19,16 @@ Model::~Model() {
 
 void Model::readfile(const string &path) {
     ifstream inFile(path, ios::in);
-
     string line;
 
     getline(inFile, line);
     stringstream ss(line);
 
-    char comma;
-    int stockSymbol;
+    string stockSymbol;
     int countStock = 0;
     int countDay = 0;
 
-    while (ss >> stockSymbol >> comma) {
+    while (getline(ss, stockSymbol, ',')) {
         countStock++;
     }
 
@@ -53,11 +51,15 @@ void Model::getStock(const string &path) {
     stringstream ss(line);
 
     char comma;
-    int stockSymbol;
-
+    string stockSymbol;
+    int count = 0;
     for (int i = 0; i < this->num_of_stock; i++) {
-        ss >> stockSymbol >> comma;
-        this->stock[i].symbol = stockSymbol;
+        getline(ss, stockSymbol, ',');
+
+        stringstream num;
+        num << stockSymbol;
+        num >> this->stock[i].symbol;
+        cout << count++ << " " << stockSymbol << endl;
     }
 
     int countStock = 0;
@@ -253,8 +255,8 @@ double Model::getFitness(int *binarySolution, int HW) {
 
 /******************************************************************************************************/
 double
-Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int stock_c, int stock_d, int allot_a,
-                  int allot_b, int allot_c, int allot_d, int HW) {
+Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int stock_c, int stock_d, int stock_e,
+                  int allot_a, int allot_b, int allot_c, int allot_d, int allot_e, int HW) {
     if (HW == 6) {
         align->initial_fund = 10000000;
         for (int i = 0; i < this->num_of_stock; i++) {
@@ -277,6 +279,9 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
         if (i == stock_d) {
             stock[i].avg_fund = FUND * allot_d / PERCENT;
         }
+        if (i == stock_e) {
+            stock[i].avg_fund = FUND * allot_e / PERCENT;
+        }
         if (HW == 6) {
             align->stock[i].avg_fund = stock[i].avg_fund;
         }
@@ -298,18 +303,7 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
             align->amount[i] = amount[i];
         }
     }
-    if (HW == 0) {
-        return amount[stock_a];
-    }
-    if (HW == 1) {
-        return amount[stock_b];
-    }
-    if (HW == 2) {
-        return amount[stock_c];
-    }
-    if (HW == 3) {
-        return amount[stock_d];
-    }
+
     /* calc balance */
     double totalBalance = 0.0;
     double *balance = new double[num_of_stock];
@@ -387,9 +381,6 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
         align->expect_reward = 0.0;
         align->expect_reward = expect_reward;
     }
-    if (HW == 4) {
-        return expect_reward;
-    }
 
     /* calc Yi */
     /* calc risk */
@@ -405,9 +396,6 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
         align->risk = 0.0;
         align->risk = risk;
     }
-    if (HW == 5) {
-        return risk;
-    }
 
     double trendValue;
     /* calc trend value */
@@ -419,7 +407,7 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
     if (HW == 6) {
         align->gBest = 0.0;
         align->gBest = trendValue;
-        align->align(period, to_string(stock_a));
+        align->align(period);
     }
 
     delete[] balance;

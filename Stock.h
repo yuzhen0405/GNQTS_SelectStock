@@ -1,13 +1,13 @@
 //
 // Created by Irene Chen on 2020/2/4.
 //
-
+#include <string>
 #ifndef GNQTS_SELECTSTOCK_STOCK_H
 #define GNQTS_SELECTSTOCK_STOCK_H
 
 class Stock {
 public:
-    int symbol;
+    std::string symbol;
     int avg_fund;
     double beta;
     double *price;

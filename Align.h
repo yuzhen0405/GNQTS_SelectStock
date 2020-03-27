@@ -11,7 +11,6 @@
 
 class Align {
 public:
-    int percent = 1000;
     string ROUND = "50";
     string GENERATION = "10000";
     string PARTICLE = "10";
@@ -60,8 +59,8 @@ public:
         delete[] this->stock;
     };
 
-    void align(int period, string stock) const {
-        Logger logger("../log/" + tag + "/Irene_result_stock" + stock + "_" + trainPeriod[period], 20);
+    void align(int period) const {
+        Logger logger("../log/" + tag + "/Irene_result_" + trainPeriod[period], 20);
 //        logger.writeComma("Generation");
 //        logger.writeLine(GENERATION);
 //        logger.writeComma("Particle");
