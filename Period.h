@@ -66,7 +66,8 @@ const string trainPeriod[] = {
 const string tag = "M2M";
 const int numOfPeriod = 84;
 const string trainPeriod[] = {
-        "train_2012_12(2012 Q1).csv", "train_2013_01(2013 Q1).csv", "train_2013_02(2013 Q1).csv",
+        "train_2013_01(2013 Q1)_five.csv", "train_2013_01(2013 Q1)_low.csv", "train_2013_01(2013 Q1)_high.csv",
+//        "train_2012_12(2012 Q1).csv", "train_2013_01(2013 Q1).csv", "train_2013_02(2013 Q1).csv",
         "train_2013_03(2013 Q1).csv", "train_2013_04(2013 Q1).csv", "train_2013_05(2013 Q1).csv",
         "train_2013_06(2013 Q1).csv", "train_2013_07(2013 Q1).csv", "train_2013_08(2013 Q1).csv",
         "train_2013_09(2013 Q1).csv", "train_2013_10(2013 Q1).csv", "train_2013_11(2013 Q1).csv",

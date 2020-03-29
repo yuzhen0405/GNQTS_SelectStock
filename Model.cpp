@@ -59,7 +59,6 @@ void Model::getStock(const string &path) {
         stringstream num;
         num << stockSymbol;
         num >> this->stock[i].symbol;
-        cout << count++ << " " << stockSymbol << endl;
     }
 
     int countStock = 0;
@@ -311,8 +310,7 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
         if (binarySolution[i] == 0) {
             balance[i] = 0.0;
         } else {
-            balance[i] = stock[i].avg_fund - amount[i] * stock[i].price[0] * SHARE -
-                         amount[i] * stock[i].price[0] * SHARE * FEE;
+            balance[i] = stock[i].avg_fund - amount[i] * stock[i].price[0] ;
             totalBalance += balance[i];
         }
         if (HW == 6) {
@@ -324,11 +322,7 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
     /* calc fee */
     double *fee = new double[num_of_stock];
     for (int i = 0; i < num_of_stock; i++) {
-        if (binarySolution[i] == 1) {
-            fee[i] = stock[i].price[0] * amount[i] * SHARE * FEE;
-        } else {
             fee[i] = 0.0;
-        }
     }
 
     /* calc individual real FS */
@@ -336,11 +330,10 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
         for (int j = 0; j < num_of_day; j++) {
             if (binarySolution[i] == 1) {
                 if (j == 0) {
-                    stock[i].fs[j] = stock[i].avg_fund - stock[i].price[0] * amount[i] * SHARE * FEE;
+                    stock[i].fs[j] = stock[i].avg_fund ;
                 } else {
                     stock[i].fs[j] =
-                            stock[i].price[j] * amount[i] * SHARE - stock[i].price[j] * amount[i] * SHARE * FEE -
-                            stock[i].price[j] * amount[i] * SHARE * TAX + balance[i];
+                            stock[i].price[j] * amount[i]  + balance[i];
                 }
             } else {
                 stock[i].fs[j] = 0.0;

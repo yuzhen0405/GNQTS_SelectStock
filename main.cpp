@@ -61,7 +61,7 @@ int main() {
         } else if (tag == "H2H") {
         } else if (tag == "Q2Q") {
         } else if (tag == "M2M") {
-            for (int i = 1; i < 2; i++) {
+            for (int i = 1; i < 4; i++) {
                 test(i, 0, 1, 2, 3, 4);
             }
         } else if (tag == "Y2H") {
