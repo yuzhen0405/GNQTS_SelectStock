@@ -2,7 +2,7 @@
 #include <cfloat>
 #include <chrono>
 
-#define STOCK 6
+#define STOCK 5
 
 void test(int p, int a, int b, int c, int d, int e, int f, int g) {
     int period = p - 1;
@@ -195,25 +195,25 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 
 int main() {
     auto start = std::chrono::steady_clock::now();
-    if (tag == "US/Y2Y") {
-        for (int i = 2; i <= 3; i++) {
-            if (STOCK == 1) {
-                test(i, 1, 1, 1, 1, 1, 1, 1);
-            } else if (STOCK == 2) {
-                test(i, 1, 1, 1, 1, 1, 1, 0);
-            } else if (STOCK == 3) {
-                test(i, 1, 1, 1, 1, 1, 0, 2);
-            } else if (STOCK == 4) {
-                test(i, 1, 1, 1, 1, 0, 2, 3);
-            } else if (STOCK == 5) {
-                test(i, 1, 1, 1, 0, 2, 3, 19);
-            } else if (STOCK == 6) {
-                test(i, 1, 1, 0, 2, 3, 19, 5);
-            }
-        }
-    }
 
-    /*
+//    if (tag == "US/Y2Y") {
+//        for (int i = 2; i <= 3; i++) {
+//            if (STOCK == 1) {
+//                test(i, 1, 1, 1, 1, 1, 1, 1);
+//            } else if (STOCK == 2) {
+//                test(i, 1, 1, 1, 1, 1, 1, 0);
+//            } else if (STOCK == 3) {
+//                test(i, 1, 1, 1, 1, 1, 0, 2);
+//            } else if (STOCK == 4) {
+//                test(i, 1, 1, 1, 1, 0, 2, 3);
+//            } else if (STOCK == 5) {
+//                test(i, 1, 1, 1, 0, 2, 3, 19);
+//            } else if (STOCK == 6) {
+//                test(i, 1, 1, 0, 2, 3, 19, 5);
+//            }
+//        }
+//    }
+
     if (tag == "US/Y2Y") {
         for (int i = 4; i <= 7; i++) {
             if (STOCK == 1) {
@@ -233,7 +233,6 @@ int main() {
             }
         }
     }
-     */
 
 //    srand(114);
 /*
