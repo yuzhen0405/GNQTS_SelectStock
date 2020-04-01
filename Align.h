@@ -61,52 +61,9 @@ public:
 
     void align(int period) const {
         Logger logger("../log/" + tag + "/Irene_result_" + trainPeriod[period], 20);
-//        logger.writeComma("Generation");
-//        logger.writeLine(GENERATION);
-//        logger.writeComma("Particle");
-//        logger.writeLine(PARTICLE);
-//        logger.writeComma("Upper bound of theta");
-//        logger.writeLine(this->theta_upper);
-//        logger.writeComma("Lower bound of theta");
-//        logger.writeLine(this->theta_lower);
-//        logger.writeComma("Rotate angle");
-//        logger.writeLine(this->theta);
-//        logger.writeComma("Round");
-//        logger.writeLine(ROUND);
-//        logger.writeLine("");
 
         logger.writeComma("Period");
         logger.writeLine(period + 1);
-        logger.writeComma("Initial fund");
-        logger.writeLine(this->initial_fund);
-        logger.writeComma("Final fund");
-        logger.writeLine(this->final_fund);
-        logger.writeComma("Real reward");
-        logger.writeLine(this->final_fund - this->initial_fund);
-        logger.writeLine("");
-
-        logger.writeComma("Expected reward");
-        logger.writeLine(this->expect_reward);
-        logger.writeComma("Risk");
-        logger.writeLine(this->risk);
-        logger.writeComma("gBest");
-        logger.writeLine(this->gBest);
-//        logger.writeComma("Find gBest at generation");
-//        logger.writeLine(this->find_gBest_gen + 1);
-//        logger.writeComma("Find gBest at round");
-//        logger.writeLine(this->find_gBest_round + 1);
-//        logger.writeComma("Number of find gBest time");
-//        logger.writeLine(this->find_gBest_time);
-//        logger.writeLine("");
-
-        logger.writeComma("Amount");
-        for (int i = 0; i < this->num_of_stock; i++) {
-            if (binarySolution[i] == 1)
-                logger.writeComma(this->amount[i]);
-        }
-
-        logger.writeLine("");
-
         logger.writeComma("Stock#");
         for (int i = 0; i < this->num_of_stock; i++) {
             if (this->binarySolution[i] == 1) {
@@ -116,14 +73,33 @@ public:
                 logger.writeComma(")");
             }
         }
-
         logger.writeLine("");
         logger.writeComma("Allocated fund");
         for (int i = 0; i < this->num_of_stock; i++) {
-            if (binarySolution[i] == 1)
-                logger.writeComma(this->stock[i].avg_fund);
+            if (binarySolution[i] == 1) {
+                logger.write(this->stock[i].avg_fund);
+                logger.write("(");
+                logger.write(this->amount[i]);
+                logger.write(")");
+                logger.writeComma("");
+            }
         }
         logger.writeLine("");
+//        logger.writeComma("Amount");
+//        for (int i = 0; i < this->num_of_stock; i++) {
+//            if (binarySolution[i] == 1)
+//                logger.writeComma(this->amount[i]);
+//        }
+//
+//        logger.writeLine("");
+
+        logger.writeComma("Expected reward");
+        logger.writeLine(this->expect_reward);
+        logger.writeComma("Risk");
+        logger.writeLine(this->risk);
+        logger.writeComma("gBest");
+        logger.writeLine(this->gBest);
+
 
         for (int i = 0; i < this->num_of_day; i++) {
             logger.write("FS(");

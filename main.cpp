@@ -2,22 +2,25 @@
 #include <cfloat>
 #include <chrono>
 
-#define STOCK 5
+#define STOCK 7
 
-
-void test(int p, int a, int b, int c, int d, int e) {
+void test(int p, int a, int b, int c, int d, int e, int f, int g) {
     int period = p - 1;
     int stock_a = a;
     int stock_b = b;
     int stock_c = c;
     int stock_d = d;
     int stock_e = e;
+    int stock_f = f;
+    int stock_g = g;
     double best = -DBL_MAX;
     int allot_a = 0;
     int allot_b = 0;
     int allot_c = 0;
     int allot_d = 0;
     int allot_e = 0;
+    int allot_f = 0;
+    int allot_g = 0;
     Model *model = new Model();
     model->nextPeriod(period);
     Particle particle;
@@ -26,63 +29,181 @@ void test(int p, int a, int b, int c, int d, int e) {
     align.setStock(model->num_of_stock, model->num_of_day);
 
     for (int i = 0; i < model->num_of_stock; i++) {
-        if (i == stock_a || i == stock_b || i == stock_c || i == stock_d || i == stock_e)
+        if (i == stock_a || i == stock_b || i == stock_c || i == stock_d || i == stock_e || i == stock_f ||
+            i == stock_g)
             particle.binarySolution[i] = 1;
         else
             particle.binarySolution[i] = 0;
     }
     double fitness = 0.0;
+#if STOCK == 1
+    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                stock_e, stock_f, stock_g, PERCENT, PERCENT, PERCENT, PERCENT, PERCENT, PERCENT,
+                                PERCENT, 6);
+#elif STOCK == 2
+    for (int i = 0; i <= PERCENT; i++) {
+        fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                    stock_d, stock_e, stock_f, stock_g, i, i, i, i, i, i,
+                                    PERCENT - i, -1);
+        if (best < fitness) {
+            best = fitness;
+            allot_a = i;
+            allot_b = i;
+            allot_c = i;
+            allot_d = i;
+            allot_e = i;
+            allot_f = i;
+            allot_g = PERCENT - i;
+        }
+    }
+    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                allot_g, 6);
+#elif STOCK == 3
+    for (int i = 0; i <= PERCENT; i++) {
+        for (int j = 0; j <= PERCENT - i; j++) {
+                        fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                                    stock_d, stock_e, stock_f,stock_g, i,i,i,i, i, j,
+                                                    PERCENT - i - j , -1);
+                        if (best < fitness) {
+                            best = fitness;
+                            allot_a = i;
+                            allot_b = i;
+                            allot_c = i;
+                            allot_d = i;
+                            allot_e = i;
+                            allot_f = j;
+                            allot_g = PERCENT - i - j  ;
+                        }
+                    }
+                }
+    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                allot_g, 6);
+#elif STOCK == 4
+    for (int i = 0; i <= PERCENT; i++) {
+        for (int j = 0; j <= PERCENT - i; j++) {
+            for (int k = 0; k <= PERCENT - i - j; k++) {
+                fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                            stock_d, stock_e, stock_f, stock_g, i, i, i, i, j, k,
+                                            PERCENT - i - j - k, -1);
+                if (best < fitness) {
+                    best = fitness;
+                    allot_a = i;
+                    allot_b = i;
+                    allot_c = i;
+                    allot_d = i;
+                    allot_e = j;
+                    allot_f = k;
+                    allot_g = PERCENT - i - j - k;
+                }
+            }
+        }
+    }
+    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                allot_g, 6);
+#elif STOCK == 5
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 for (int l = 0; l <= PERCENT - i - j - k; l++) {
-                    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
-                                                stock_d, stock_e, i, j, k, l, 100 - i - j - k - l, -1);
-                    if (best < fitness) {
-                        best = fitness;
-                        allot_a = i;
-                        allot_b = j;
-                        allot_c = k;
-                        allot_d = l;
+                        fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                                    stock_d, stock_e, stock_f,stock_g, i,i, i, j, k, l,
+                                                    PERCENT - i - j - k - l , -1);
+                        if (best < fitness) {
+                            best = fitness;
+                            allot_a = i;
+                            allot_b = i;
+                            allot_c = i;
+                            allot_d = j;
+                            allot_e = k;
+                            allot_f = l;
+                            allot_g = PERCENT - i - j - k - l ;
+                        }
+                    }
+                }
+            }
+        }
+    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                allot_g, 6);
+#elif STOCK == 6
+    for (int i = 0; i <= PERCENT; i++) {
+        for (int j = 0; j <= PERCENT - i; j++) {
+            for (int k = 0; k <= PERCENT - i - j; k++) {
+                for (int l = 0; l <= PERCENT - i - j - k; l++) {
+                    for (int m = 0; m <= PERCENT - i - j - k - l; m++) {
+                        fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                                    stock_d, stock_e, stock_f,stock_g, i, i, j, k, l, m,
+                                                    PERCENT - i - j - k - l - m, -1);
+                        if (best < fitness) {
+                            best = fitness;
+                            allot_a = i;
+                            allot_b = i;
+                            allot_c = j;
+                            allot_d = k;
+                            allot_e = l;
+                            allot_f = m;
+                            allot_g = PERCENT - i - j - k - l - m;
+                        }
                     }
                 }
             }
         }
     }
-    model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
-                      stock_d, stock_e, allot_a, allot_b, allot_c, allot_d, 100 - allot_a - allot_b - allot_c - allot_d,
-                      6);
+    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                allot_g, 6);
+#elif STOCK == 7
+    for (int i = 0; i <= PERCENT; i++) {
+        for (int j = 0; j <= PERCENT - i; j++) {
+            for (int k = 0; k <= PERCENT - i - j; k++) {
+                for (int l = 0; l <= PERCENT - i - j - k; l++) {
+                    for (int m = 0; m <= PERCENT - i - j - k - l; m++) {
+                        for (int n = 0; n <= PERCENT - i - j - k - l - m; n++) {
+                            fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                                        stock_d,
+                                                        stock_e, stock_f, stock_g, i, j, k, l, m, n,
+                                                        PERCENT - i - j - k - l - m - n, -1);
+                            if (best < fitness) {
+                                best = fitness;
+                                allot_a = i;
+                                allot_b = j;
+                                allot_c = k;
+                                allot_d = l;
+                                allot_e = m;
+                                allot_f = n;
+                                allot_g = PERCENT - i - j - k - l - m - n;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                allot_g, 6);
+#endif
 }
 
 int main() {
     auto start = std::chrono::steady_clock::now();
-    if (STOCK == 5) {
-        if (tag == "Y2Y") {
-        } else if (tag == "H2H") {
-        } else if (tag == "Q2Q") {
-        } else if (tag == "M2M") {
-            for (int i = 1; i < 4; i++) {
-                test(i, 0, 1, 2, 3, 4);
-            }
-        } else if (tag == "Y2H") {
-
-        } else if (tag == "Y2Q") {
-
-        } else if (tag == "Y2M") {
-
-        } else if (tag == "H2Q") {
-
-        } else if (tag == "H2M") {
-
-        } else if (tag == "Q2M") {
-
-        } else if (tag == "H#") {
-
-        } else if (tag == "Q#") {
-
-        } else if (tag == "M#") {
-        }
-
+    if (STOCK == 1) {
+        test(84, 1, 1, 1, 1, 1, 1, 1);
+    } else if (STOCK == 2) {
+        test(84, 1, 1, 1, 1, 1, 1, 0);
+    } else if (STOCK == 3) {
+        test(84, 1, 1, 1, 1, 1, 0, 2);
+    } else if (STOCK == 4) {
+        test(84, 1, 1, 1, 1, 0, 2, 3);
+    } else if (STOCK == 5) {
+        test(84, 1, 1, 1, 0, 2, 3, 20);
+    } else if (STOCK == 6) {
+        test(84, 1, 1, 0, 2, 3, 20, 5);
+    } else if (STOCK == 7) {
+        test(84, 1, 1, 0, 2, 3, 20, 5);
     }
 
 //    srand(114);

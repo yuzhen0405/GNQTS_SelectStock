@@ -14,9 +14,9 @@
 #define THETA 0.0004
 #define THETA_UPPER 0.0004;
 #define THETA_LOWER 0.0004;
-#define FEE 0.001425
-#define TAX 0.003
-#define SHARE 1.0
+#define FEE 0.0
+#define TAX 0.0
+#define SHARE 1
 #define FUND 10000000.0
 #define PERCENT 100
 
@@ -31,7 +31,8 @@ public:
     double getFitness(int *binarySolution, int HW);
 
     double one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int stock_c, int stock_d, int stock_e,
-                      int allot_a, int allot_b, int allot_c, int allot_d, int allot_e, int HW);
+                      int stock_f,int stock_g,
+                      int allot_a, int allot_b, int allot_c, int allot_d, int allot_e, int allot_f, int allot_g, int HW);
 
     int num_of_stock;
     int num_of_day;

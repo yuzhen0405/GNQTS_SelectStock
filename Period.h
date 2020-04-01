@@ -7,33 +7,45 @@
 
 #include <string>
 
-#define PERIOD 3
+#define MARKET 1
+/*
+ *    0: TW
+ *    1: US
+ */
+#define PERIOD 0
 
 /* PERIOD
- *   0: Y2Y
- *   1: H2H
- *   2: Q2Q
- *   3: M2M
- *   4: Y2H
- *   5: Y2Q
- *   6: Y2M
- *   7: H2Q
- *   8: H2M
- *   9: Q2M
- *  10: H*
- *  11: Q*
- *  12: M*
+ *    0: Y2Y
+ *    1: H2H
+ *    2: Q2Q
+ *    3: M2M
+ *    4: Y2H
+ *    5: Y2Q
+ *    6: Y2M
+ *    7: H2Q
+ *    8: H2M
+ *    9: Q2M
+ *   10: H*
+ *   11: Q*
+ *   12: M*
  */
 
 using std::string;
 
-#if PERIOD == 0
+#if PERIOD == 0 && MARKET == 0
 const string tag = "Y2Y";
 const int numOfPeriod = 8;
 const string trainPeriod[] = {
         "train_2009(2009 Q1).csv", "train_2010(2010 Q1).csv", "train_2011(2011 Q1).csv",
         "train_2012(2012 Q1).csv", "train_2013(2013 Q1).csv", "train_2014(2014 Q1).csv",
-        "train_2015(2015 Q1).csv", "train_2016(2016 Q1).csv"};;
+        "train_2015(2015 Q1).csv", "train_2016(2016 Q1).csv"};
+#elif PERIOD == 0 && MARKET == 1
+const string tag = "Y2Y";
+const int numOfPeriod = 8;
+const string trainPeriod[] = {
+        "train_2009(2009 Q1).csv", "train_2010(2010 Q1).csv", "train_2011(2011 Q1).csv",
+        "train_2012(2012 Q1).csv", "train_2013(2013 Q1).csv", "train_2014(2014 Q1).csv",
+        "train_2015(2015 Q1).csv", "train_2016(2016 Q1).csv"};
 
 #elif PERIOD == 1
 const string tag = "H2H";
@@ -62,12 +74,11 @@ const string trainPeriod[] = {
         "train_2016_Q3(2016 Q1).csv", "train_2016_Q4(2016 Q1).csv", "train_2017_Q1(2017 Q1).csv",
         "train_2017_Q2(2017 Q1).csv", "train_2017_Q3(2017 Q1).csv"};
 
-#elif PERIOD == 3
-const string tag = "M2M";
+#elif PERIOD == 3 && MARKET == 1
+const string tag = "US/M2M";
 const int numOfPeriod = 84;
 const string trainPeriod[] = {
-        "train_2013_01(2013 Q1)_five.csv", "train_2013_01(2013 Q1)_low.csv", "train_2013_01(2013 Q1)_high.csv",
-//        "train_2012_12(2012 Q1).csv", "train_2013_01(2013 Q1).csv", "train_2013_02(2013 Q1).csv",
+        "train_2012_12(2012 Q1).csv", "train_2013_01(2013 Q1).csv", "train_2013_02(2013 Q1).csv",
         "train_2013_03(2013 Q1).csv", "train_2013_04(2013 Q1).csv", "train_2013_05(2013 Q1).csv",
         "train_2013_06(2013 Q1).csv", "train_2013_07(2013 Q1).csv", "train_2013_08(2013 Q1).csv",
         "train_2013_09(2013 Q1).csv", "train_2013_10(2013 Q1).csv", "train_2013_11(2013 Q1).csv",
@@ -94,7 +105,8 @@ const string trainPeriod[] = {
         "train_2018_12(2018 Q1).csv", "train_2019_01(2019 Q1).csv", "train_2019_02(2019 Q1).csv",
         "train_2019_03(2019 Q1).csv", "train_2019_04(2019 Q1).csv", "train_2019_05(2019 Q1).csv",
         "train_2019_06(2019 Q1).csv", "train_2019_07(2019 Q1).csv", "train_2019_08(2019 Q1).csv",
-        "train_2019_09(2019 Q1).csv", "train_2019_10(2019 Q1).csv", "train_2019_11(2019 Q1).csv"};
+        "train_2019_09(2019 Q1).csv", "train_2019_10(2019 Q1).csv", "train_2019_11(2019 Q1).csv"
+};
 
 #elif PERIOD == 4
 const string tag = "Y2H";
