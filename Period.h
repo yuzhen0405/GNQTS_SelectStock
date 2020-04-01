@@ -39,13 +39,14 @@ const string trainPeriod[] = {
         "train_2009(2009 Q1).csv", "train_2010(2010 Q1).csv", "train_2011(2011 Q1).csv",
         "train_2012(2012 Q1).csv", "train_2013(2013 Q1).csv", "train_2014(2014 Q1).csv",
         "train_2015(2015 Q1).csv", "train_2016(2016 Q1).csv"};
+
 #elif PERIOD == 0 && MARKET == 1
-const string tag = "Y2Y";
-const int numOfPeriod = 8;
+const string tag = "US/Y2Y";
+const int numOfPeriod = 7;
 const string trainPeriod[] = {
-        "train_2009(2009 Q1).csv", "train_2010(2010 Q1).csv", "train_2011(2011 Q1).csv",
         "train_2012(2012 Q1).csv", "train_2013(2013 Q1).csv", "train_2014(2014 Q1).csv",
-        "train_2015(2015 Q1).csv", "train_2016(2016 Q1).csv"};
+        "train_2015(2015 Q1).csv", "train_2016(2016 Q1).csv", "train_2017(2017 Q1).csv",
+        "train_2018(2018 Q1).csv"};
 
 #elif PERIOD == 1
 const string tag = "H2H";

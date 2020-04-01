@@ -2,7 +2,7 @@
 #include <cfloat>
 #include <chrono>
 
-#define STOCK 7
+#define STOCK 6
 
 void test(int p, int a, int b, int c, int d, int e, int f, int g) {
     int period = p - 1;
@@ -55,6 +55,7 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
             allot_f = i;
             allot_g = PERCENT - i;
         }
+        std::cout << i << endl;
     }
     fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
                                 stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
@@ -62,6 +63,7 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 3
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
+            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
                         fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
                                                     stock_d, stock_e, stock_f,stock_g, i,i,i,i, i, j,
                                                     PERCENT - i - j , -1);
@@ -83,6 +85,7 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 4
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
+            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
                                             stock_d, stock_e, stock_f, stock_g, i, i, i, i, j, k,
@@ -106,36 +109,38 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 5
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
+           std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 for (int l = 0; l <= PERCENT - i - j - k; l++) {
-                        fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
-                                                    stock_d, stock_e, stock_f,stock_g, i,i, i, j, k, l,
-                                                    PERCENT - i - j - k - l , -1);
-                        if (best < fitness) {
-                            best = fitness;
-                            allot_a = i;
-                            allot_b = i;
-                            allot_c = i;
-                            allot_d = j;
-                            allot_e = k;
-                            allot_f = l;
-                            allot_g = PERCENT - i - j - k - l ;
-                        }
+                    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                                stock_d, stock_e, stock_f, stock_g, i, i, i, j, k, l,
+                                                PERCENT - i - j - k - l, -1);
+                    if (best < fitness) {
+                        best = fitness;
+                        allot_a = i;
+                        allot_b = i;
+                        allot_c = i;
+                        allot_d = j;
+                        allot_e = k;
+                        allot_f = l;
+                        allot_g = PERCENT - i - j - k - l;
                     }
                 }
             }
         }
+    }
     fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
                                 stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
                                 allot_g, 6);
 #elif STOCK == 6
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
+            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 for (int l = 0; l <= PERCENT - i - j - k; l++) {
                     for (int m = 0; m <= PERCENT - i - j - k - l; m++) {
                         fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
-                                                    stock_d, stock_e, stock_f,stock_g, i, i, j, k, l, m,
+                                                    stock_d, stock_e, stock_f, stock_g, i, i, j, k, l, m,
                                                     PERCENT - i - j - k - l - m, -1);
                         if (best < fitness) {
                             best = fitness;
@@ -190,21 +195,45 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 
 int main() {
     auto start = std::chrono::steady_clock::now();
-    if (STOCK == 1) {
-        test(84, 1, 1, 1, 1, 1, 1, 1);
-    } else if (STOCK == 2) {
-        test(84, 1, 1, 1, 1, 1, 1, 0);
-    } else if (STOCK == 3) {
-        test(84, 1, 1, 1, 1, 1, 0, 2);
-    } else if (STOCK == 4) {
-        test(84, 1, 1, 1, 1, 0, 2, 3);
-    } else if (STOCK == 5) {
-        test(84, 1, 1, 1, 0, 2, 3, 20);
-    } else if (STOCK == 6) {
-        test(84, 1, 1, 0, 2, 3, 20, 5);
-    } else if (STOCK == 7) {
-        test(84, 1, 1, 0, 2, 3, 20, 5);
+    if (tag == "US/Y2Y") {
+        for (int i = 2; i <= 3; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 6) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            }
+        }
     }
+
+    /*
+    if (tag == "US/Y2Y") {
+        for (int i = 4; i <= 7; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            } else if (STOCK == 7) {
+                test(i, 1,  0, 2, 3, 20, 5,6);
+            }
+        }
+    }
+     */
 
 //    srand(114);
 /*
@@ -283,14 +312,7 @@ int main() {
     delete model;
 */
     auto end = std::chrono::steady_clock::now();
-    std::cout << endl << endl << "Time taken: " <<
-              std::chrono::duration<double>(end
-                                            - start).
-
-                      count()
-
-              << " s"
-              <<
-              std::endl;
+    std::cout << endl << endl << "Time taken: " << std::chrono::duration<double>(end - start).count() << " s"
+              << std::endl;
     return 0;
 }
