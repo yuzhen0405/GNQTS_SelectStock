@@ -196,27 +196,8 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 
 int main() {
     auto start = std::chrono::steady_clock::now();
-
-//    if (tag == "US/Y2Y") {
-//        for (int i = 2; i <= 3; i++) {
-//            if (STOCK == 1) {
-//                test(i, 1, 1, 1, 1, 1, 1, 1);
-//            } else if (STOCK == 2) {
-//                test(i, 1, 1, 1, 1, 1, 1, 0);
-//            } else if (STOCK == 3) {
-//                test(i, 1, 1, 1, 1, 1, 0, 2);
-//            } else if (STOCK == 4) {
-//                test(i, 1, 1, 1, 1, 0, 2, 3);
-//            } else if (STOCK == 5) {
-//                test(i, 1, 1, 1, 0, 2, 3, 19);
-//            } else if (STOCK == 6) {
-//                test(i, 1, 1, 0, 2, 3, 19, 5);
-//            }
-//        }
-//    }
-
     if (tag == "US/Y2Y") {
-        for (int i = 4; i <= 7; i++) {
+        for (int i = 2; i <= 7; i++) {
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -225,15 +206,312 @@ int main() {
                 test(i, 1, 1, 1, 1, 1, 0, 2);
             } else if (STOCK == 4) {
                 test(i, 1, 1, 1, 1, 0, 2, 3);
-            } else if (STOCK == 5) {
+            } else if (STOCK == 5 && i <= 3) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 4) {
                 test(i, 1, 1, 1, 0, 2, 3, 20);
-            } else if (STOCK == 6) {
+            } else if (STOCK == 6 && i <= 3) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 4) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            } else if (STOCK == 7) {
-                test(i, 1,  0, 2, 3, 20, 5,6);
+            } else if (STOCK == 7 && i <= 3) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 4) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/H2H") {
+        for (int i = 3; i <= 14; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 5) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 6) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 5) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 6) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 5) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 6) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/Q2Q") {
+        for (int i = 5; i <= 28; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 9) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 10) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 9) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 10) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 9) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 10) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/M2M") {
+        for (int i = 13; i <= 84; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 25) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 26) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 25) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 26) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 25) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 26) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/Y2H") {
+        for (int i = 3; i <= 14; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 6) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 7) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 6) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 7) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 6) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 7) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/Y2Q") {
+        for (int i = 5; i <= 28; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 12) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 13) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 12) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 13) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 12) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 13) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/Y2M") {
+        for (int i = 13; i <= 84; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 36) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 37) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 36) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 37) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 36) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 37) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/H2Q") {
+        for (int i = 5; i <= 28; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 10) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 11) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 10) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 11) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 10) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 11) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/H2M") {
+        for (int i = 13; i <= 84; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 30) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 31) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 30) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 31) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 30) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 31) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/Q2M") {
+        for (int i = 13; i <= 84; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 27) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 28) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 27) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 28) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 27) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 28) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/H#") {
+        for (int i = 3; i <= 14; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 6) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 7) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 6) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 7) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 6) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 7) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/Q#") {
+        for (int i = 5; i <= 28; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 12) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 13) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 12) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 13) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 12) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 13) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
+            }
+        }
+    } else if (tag == "US/M#") {
+        for (int i = 13; i <= 84; i++) {
+            if (STOCK == 1) {
+                test(i, 1, 1, 1, 1, 1, 1, 1);
+            } else if (STOCK == 2) {
+                test(i, 1, 1, 1, 1, 1, 1, 0);
+            } else if (STOCK == 3) {
+                test(i, 1, 1, 1, 1, 1, 0, 2);
+            } else if (STOCK == 4) {
+                test(i, 1, 1, 1, 1, 0, 2, 3);
+            } else if (STOCK == 5 && i <= 36) {
+                test(i, 1, 1, 1, 0, 2, 3, 19);
+            } else if (STOCK == 5 && i >= 37) {
+                test(i, 1, 1, 1, 0, 2, 3, 20);
+            } else if (STOCK == 6 && i <= 36) {
+                test(i, 1, 1, 0, 2, 3, 19, 5);
+            } else if (STOCK == 6 && i >= 37) {
+                test(i, 1, 1, 0, 2, 3, 20, 5);
+            }else if (STOCK == 7 && i <= 36) {
+                test(i, 1, 0, 2, 3, 19, 5, 6);
+            } else if (STOCK == 7 && i >= 37) {
+                test(i, 1, 0, 2, 3, 20, 5, 6);
             }
         }
     }
+
+
+
 
 //    srand(114);
 /*

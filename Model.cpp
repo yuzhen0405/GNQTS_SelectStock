@@ -415,6 +415,7 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
         align->align(period);
     }
 
+    delete[] amount;
     delete[] balance;
     delete[] fee;
     delete[] realFS;
