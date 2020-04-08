@@ -55,7 +55,6 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
             allot_f = i;
             allot_g = PERCENT - i;
         }
-        std::cout << i << endl;
     }
     fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
                                 stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
@@ -63,7 +62,7 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 3
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
-            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
+//            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
                         fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
                                                     stock_d, stock_e, stock_f,stock_g, i,i,i,i, i, j,
                                                     PERCENT - i - j , -1);
@@ -85,7 +84,7 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 4
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
-            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
+//            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
                                             stock_d, stock_e, stock_f, stock_g, i, i, i, i, j, k,
@@ -196,8 +195,11 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 
 int main() {
     auto start = std::chrono::steady_clock::now();
+    test(34, 2, 2, 2, 2, 2, 2, 20);
+//    test(16, 3, 3, 3, 3, 3, 3, 3);
     if (tag == "US/Y2Y") {
         for (int i = 2; i <= 7; i++) {
+            std::cout << "period: " << i << " / " << 7 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -222,6 +224,7 @@ int main() {
         }
     } else if (tag == "US/H2H") {
         for (int i = 3; i <= 14; i++) {
+            std::cout << "period: " << i << " / " << 14 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -238,7 +241,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 6) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 5) {
+            } else if (STOCK == 7 && i <= 5) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 6) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -246,6 +249,7 @@ int main() {
         }
     } else if (tag == "US/Q2Q") {
         for (int i = 5; i <= 28; i++) {
+            std::cout << "period: " << i << " / " << 28 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -262,15 +266,25 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 10) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 9) {
+            } else if (STOCK == 7 && i <= 9) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 10) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
             }
         }
     } else if (tag == "US/M2M") {
+//        for (int i = 84; i <= 84; i++) {
         for (int i = 13; i <= 84; i++) {
-            if (STOCK == 1) {
+            std::cout << "period: " << i << " / " << 84 << " " << endl;
+            if (STOCK == 0 && i <= 25) {
+                for (int j = 0; j < 21; j++) {
+                    test(i, j, j, j, j, j, j, j);
+                }
+            } else if (STOCK == 0 && i >= 26) {
+                for (int j = 0; j < 22; j++) {
+                    test(i, j, j, j, j, j, j, j);
+                }
+            } else if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
                 test(i, 1, 1, 1, 1, 1, 1, 0);
@@ -286,7 +300,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 26) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 25) {
+            } else if (STOCK == 7 && i <= 25) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 26) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -294,6 +308,7 @@ int main() {
         }
     } else if (tag == "US/Y2H") {
         for (int i = 3; i <= 14; i++) {
+            std::cout << "period: " << i << " / " << 14 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -310,7 +325,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 7) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 6) {
+            } else if (STOCK == 7 && i <= 6) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 7) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -318,6 +333,7 @@ int main() {
         }
     } else if (tag == "US/Y2Q") {
         for (int i = 5; i <= 28; i++) {
+            std::cout << "period: " << i << " / " << 28 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -334,7 +350,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 13) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 12) {
+            } else if (STOCK == 7 && i <= 12) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 13) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -342,6 +358,7 @@ int main() {
         }
     } else if (tag == "US/Y2M") {
         for (int i = 13; i <= 84; i++) {
+            std::cout << "period: " << i << " / " << 84 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -358,7 +375,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 37) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 36) {
+            } else if (STOCK == 7 && i <= 36) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 37) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -366,6 +383,7 @@ int main() {
         }
     } else if (tag == "US/H2Q") {
         for (int i = 5; i <= 28; i++) {
+            std::cout << "period: " << i << " / " << 28 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -382,7 +400,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 11) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 10) {
+            } else if (STOCK == 7 && i <= 10) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 11) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -390,6 +408,7 @@ int main() {
         }
     } else if (tag == "US/H2M") {
         for (int i = 13; i <= 84; i++) {
+            std::cout << "period: " << i << " / " << 84 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -406,7 +425,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 31) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 30) {
+            } else if (STOCK == 7 && i <= 30) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 31) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -414,6 +433,7 @@ int main() {
         }
     } else if (tag == "US/Q2M") {
         for (int i = 13; i <= 84; i++) {
+            std::cout << "period: " << i << " / " << 84 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -430,7 +450,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 28) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 27) {
+            } else if (STOCK == 7 && i <= 27) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 28) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -438,6 +458,7 @@ int main() {
         }
     } else if (tag == "US/H#") {
         for (int i = 3; i <= 14; i++) {
+            std::cout << "period: " << i << " / " << 14 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -454,7 +475,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 7) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 6) {
+            } else if (STOCK == 7 && i <= 6) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 7) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -462,6 +483,7 @@ int main() {
         }
     } else if (tag == "US/Q#") {
         for (int i = 5; i <= 28; i++) {
+            std::cout << "period: " << i << " / " << 28 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -478,7 +500,7 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 13) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 12) {
+            } else if (STOCK == 7 && i <= 12) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 13) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
@@ -486,6 +508,7 @@ int main() {
         }
     } else if (tag == "US/M#") {
         for (int i = 13; i <= 84; i++) {
+            std::cout << "period: " << i << " / " << 84 << " " << endl;
             if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
@@ -502,15 +525,13 @@ int main() {
                 test(i, 1, 1, 0, 2, 3, 19, 5);
             } else if (STOCK == 6 && i >= 37) {
                 test(i, 1, 1, 0, 2, 3, 20, 5);
-            }else if (STOCK == 7 && i <= 36) {
+            } else if (STOCK == 7 && i <= 36) {
                 test(i, 1, 0, 2, 3, 19, 5, 6);
             } else if (STOCK == 7 && i >= 37) {
                 test(i, 1, 0, 2, 3, 20, 5, 6);
             }
         }
     }
-
-
 
 
 //    srand(114);
@@ -592,5 +613,6 @@ int main() {
     auto end = std::chrono::steady_clock::now();
     std::cout << endl << endl << "Time taken: " << std::chrono::duration<double>(end - start).count() << " s"
               << std::endl;
+//    system("pause");
     return 0;
 }
