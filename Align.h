@@ -22,7 +22,7 @@ public:
 
     double initial_fund;
     double final_fund;
-    double expect_reward;
+    double expect_return;
     double risk;
     double gBest;
     int find_gBest_gen;
@@ -85,16 +85,16 @@ public:
             }
         }
         logger.writeLine("");
-//        logger.writeComma("Amount");
-//        for (int i = 0; i < this->num_of_stock; i++) {
-//            if (binarySolution[i] == 1)
-//                logger.writeComma(this->amount[i]);
-//        }
-//
-//        logger.writeLine("");
+        logger.writeComma("Balance");
+        for (int i = 0; i < this->num_of_stock; i++) {
+            if (binarySolution[i] == 1)
+                logger.writeComma(this->balance[i]);
+        }
 
-        logger.writeComma("Expected reward");
-        logger.writeLine(this->expect_reward);
+        logger.writeLine("");
+
+        logger.writeComma("Expected return");
+        logger.writeLine(this->expect_return);
         logger.writeComma("Risk");
         logger.writeLine(this->risk);
         logger.writeComma("gBest");
@@ -138,7 +138,7 @@ public:
         logger.writeComma("gBest");
         logger.writeComma(this->gBest);
         logger.writeComma("Expect reward");
-        logger.writeComma(this->expect_reward);
+        logger.writeComma(this->expect_return);
         logger.writeComma("Risk");
         logger.writeComma(this->risk);
         logger.writeComma("Find gBest round");

@@ -203,7 +203,7 @@ double Model::getFitness(int *binarySolution, int HW) {
         }
     }
 
-    /* calc M, (expect_reward), (slope) */
+    /* calc M, (expect_return), (slope) */
     double tmpMFraction = 0.0;
     int tmpMDenominator = 0;
     for (int i = 0; i < num_of_day; i++) {
@@ -212,7 +212,7 @@ double Model::getFitness(int *binarySolution, int HW) {
     }
     double expect_reward = tmpMFraction / tmpMDenominator;
     if (HW == 1) {
-        align->expect_reward = expect_reward;
+        align->expect_return = expect_reward;
     }
 
     /* calc Yi */
@@ -374,7 +374,7 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
         }
     }
 
-    /* calc M, (expect_reward), (slope) */
+    /* calc M, (expect_return), (slope) */
     double tmpMFraction = 0.0;
     int tmpMDenominator = 0;
     for (int i = 0; i < num_of_day; i++) {
@@ -383,8 +383,8 @@ Model::one_to_two(int period, int *binarySolution, int stock_a, int stock_b, int
     }
     double expect_reward = tmpMFraction / tmpMDenominator;
     if (HW == 6) {
-        align->expect_reward = 0.0;
-        align->expect_reward = expect_reward;
+        align->expect_return = 0.0;
+        align->expect_return = expect_reward;
     }
 
     /* calc Yi */

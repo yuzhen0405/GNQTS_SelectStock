@@ -2,7 +2,7 @@
 #include <cfloat>
 #include <chrono>
 
-#define STOCK 5
+#define STOCK 3
 
 void test(int p, int a, int b, int c, int d, int e, int f, int g) {
     int period = p - 1;
@@ -62,7 +62,6 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 3
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
-//            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
                         fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
                                                     stock_d, stock_e, stock_f,stock_g, i,i,i,i, i, j,
                                                     PERCENT - i - j , -1);
@@ -84,7 +83,6 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 4
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
-//            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
                                             stock_d, stock_e, stock_f, stock_g, i, i, i, i, j, k,
@@ -108,7 +106,6 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 5
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
-           std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 for (int l = 0; l <= PERCENT - i - j - k; l++) {
                     fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
@@ -134,7 +131,6 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 6
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
-            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 for (int l = 0; l <= PERCENT - i - j - k; l++) {
                     for (int m = 0; m <= PERCENT - i - j - k - l; m++) {
@@ -162,7 +158,6 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 #elif STOCK == 7
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
-            std::cout << i << " / " << PERCENT << "    " << j << " / " << PERCENT << endl;
             for (int k = 0; k <= PERCENT - i - j; k++) {
                 for (int l = 0; l <= PERCENT - i - j - k; l++) {
                     for (int m = 0; m <= PERCENT - i - j - k - l; m++) {
@@ -195,8 +190,6 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 
 int main() {
     auto start = std::chrono::steady_clock::now();
-    test(34, 2, 2, 2, 2, 2, 2, 20);
-//    test(16, 3, 3, 3, 3, 3, 3, 3);
     if (tag == "US/Y2Y") {
         for (int i = 2; i <= 7; i++) {
             std::cout << "period: " << i << " / " << 7 << " " << endl;
@@ -547,7 +540,7 @@ int main() {
         model->align->round = 0;
         model->align->initial_fund = FUND;
         model->align->final_fund = 0;
-        model->align->expect_reward = 0;
+        model->align->expect_return = 0;
         model->align->risk = 0;
         model->align->gBest = 0;
         model->align->find_gBest_gen = 0;
@@ -579,7 +572,7 @@ int main() {
                 allAlign->theta_lower = model->align->theta_lower;
                 allAlign->round = model->align->round;
                 allAlign->initial_fund = model->align->initial_fund;
-                allAlign->expect_reward = model->align->expect_reward;
+                allAlign->expect_return = model->align->expect_return;
                 allAlign->final_fund = model->align->final_fund;
                 allAlign->risk = model->align->risk;
                 for (int k = 0; k < model->num_of_stock; k++) {
