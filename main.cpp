@@ -2,7 +2,8 @@
 #include <cfloat>
 #include <chrono>
 
-#define STOCK 3
+#define STOCK 0
+Logger logger("../log/Irene_result.csv", 20);
 
 void test(int p, int a, int b, int c, int d, int e, int f, int g) {
     int period = p - 1;
@@ -35,7 +36,51 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
         else
             particle.binarySolution[i] = 0;
     }
+
     double fitness = 0.0;
+    for (int i = 0; i <= PERCENT; i++) {
+        fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
+                                    stock_d, stock_e, stock_f, stock_g, i, i, i, i, i, i,
+                                    PERCENT - i, -1);
+//        std::cout << fitness << endl;
+        if (best < fitness) {
+            best = fitness;
+            allot_a = i;
+            allot_b = i;
+            allot_c = i;
+            allot_d = i;
+            allot_e = i;
+            allot_f = i;
+            allot_g = PERCENT - i;
+        }
+    }
+    int eq = PERCENT / 2;
+    logger.writeSpace(tag);
+    logger.writeComma(p);
+    logger.write(FUND * allot_a / PERCENT);
+    logger.writeComma("");
+    logger.write(":");
+    logger.writeComma("");
+    logger.writeComma(FUND * allot_g / PERCENT);
+//    std::cout << model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+//                                   stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+//                                   allot_g, -1) << endl;
+//    std::cout << model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+//                                   stock_e, stock_f, stock_g, eq, eq, eq, eq, eq, eq, eq, -1) << endl;
+    logger.writeComma(stock_a);
+    logger.writeComma(stock_g);
+    logger.writeComma(model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                        stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                        allot_g, -1));
+    logger.writeComma(model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                        stock_e, stock_f, stock_g, eq, eq, eq, eq, eq, eq, eq, -1));
+    logger.writeComma(model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                        stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                                        allot_g, -1) -
+                      model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                                        stock_e, stock_f, stock_g, eq, eq, eq, eq, eq, eq, eq, -1));
+    logger.writeLine("");
+
 #if STOCK == 1
     fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
                                 stock_e, stock_f, stock_g, PERCENT, PERCENT, PERCENT, PERCENT, PERCENT, PERCENT,
@@ -190,6 +235,188 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
 
 int main() {
     auto start = std::chrono::steady_clock::now();
+    int pe;
+    int a;
+    int b;
+    if (tag == "US/Y2Y") {
+        pe = 4;
+        a = 2;
+        b = 19;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Y2H") {
+        pe = 7;
+        a = 2;
+        b = 19;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Y2M") {
+        pe = 37;
+        a = 2;
+        b = 19;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 38;
+        a = 2;
+        b = 19;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 65;
+        a = 17;
+        b = 19;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 68;
+        a = 1;
+        b = 17;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 69;
+        a = 1;
+        b = 17;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/H2H") {
+        pe = 13;
+        a = 14;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/H2Q") {
+        pe = 25;
+        a = 14;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 28;
+        a = 1;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/H2M") {
+        pe = 42;
+        a = 9;
+        b = 12;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 65;
+        a = 2;
+        b = 16;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 72;
+        a = 9;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 73;
+        a = 14;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 77;
+        a = 7;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 78;
+        a = 5;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 81;
+        a = 14;
+        b = 17;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 82;
+        a = 1;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 83;
+        a = 12;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/H#") {
+        pe = 14;
+        a = 14;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Q2Q") {
+        pe = 14;
+        a = 12;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 27;
+        a = 12;
+        b = 17;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Q2M") {
+        pe = 40;
+        a = 12;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 54;
+        a = 5;
+        b = 7;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 63;
+        a = 2;
+        b = 13;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 65;
+        a = 2;
+        b = 15;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 66;
+        a = 11;
+        b = 15;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 72;
+        a = 9;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 74;
+        a = 7;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 78;
+        a = 14;
+        b = 17;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 79;
+        a = 12;
+        b = 17;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Q#") {
+        pe = 17;
+        a = 12;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/M2M") {
+        pe = 37;
+        a = 12;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 39;
+        a = 11;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 52;
+        a = 5;
+        b = 7;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 82;
+        a = 12;
+        b = 18;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/M#") {
+        pe = 37;
+        a = 7;
+        b = 19;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 45;
+        a = 1;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 48;
+        a = 12;
+        b = 14;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 50;
+        a = 11;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 63;
+        a = 5;
+        b = 7;
+        test(pe, a, a, a, a, a, a, b);
+    }
+
+
     if (tag == "US/Y2Y") {
         for (int i = 2; i <= 7; i++) {
             std::cout << "period: " << i << " / " << 7 << " " << endl;
@@ -269,15 +496,7 @@ int main() {
 //        for (int i = 84; i <= 84; i++) {
         for (int i = 13; i <= 84; i++) {
             std::cout << "period: " << i << " / " << 84 << " " << endl;
-            if (STOCK == 0 && i <= 25) {
-                for (int j = 0; j < 21; j++) {
-                    test(i, j, j, j, j, j, j, j);
-                }
-            } else if (STOCK == 0 && i >= 26) {
-                for (int j = 0; j < 22; j++) {
-                    test(i, j, j, j, j, j, j, j);
-                }
-            } else if (STOCK == 1) {
+            if (STOCK == 1) {
                 test(i, 1, 1, 1, 1, 1, 1, 1);
             } else if (STOCK == 2) {
                 test(i, 1, 1, 1, 1, 1, 1, 0);

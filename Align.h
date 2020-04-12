@@ -63,7 +63,7 @@ public:
         Logger logger("../log/" + tag + "/Irene_result_" + trainPeriod[period], 20);
 
         logger.writeComma("Period");
-        logger.writeLine(period + 1);
+        logger.writeComma(period + 1);
         logger.writeComma("Stock#");
         for (int i = 0; i < this->num_of_stock; i++) {
             if (this->binarySolution[i] == 1) {
@@ -73,7 +73,7 @@ public:
                 logger.writeComma(")");
             }
         }
-        logger.writeLine("");
+//        logger.writeComma("");
         logger.writeComma("Allocated fund");
         for (int i = 0; i < this->num_of_stock; i++) {
             if (binarySolution[i] == 1) {
@@ -84,36 +84,36 @@ public:
                 logger.writeComma("");
             }
         }
-        logger.writeLine("");
-        logger.writeComma("Balance");
-        for (int i = 0; i < this->num_of_stock; i++) {
-            if (binarySolution[i] == 1)
-                logger.writeComma(this->balance[i]);
-        }
+//        logger.writeComma("");
+//        logger.writeComma("Balance");
+//        for (int i = 0; i < this->num_of_stock; i++) {
+//            if (binarySolution[i] == 1)
+//                logger.writeComma(this->balance[i]);
+//        }
+//
+//        logger.writeComma("");
 
-        logger.writeLine("");
-
-        logger.writeComma("Expected return");
-        logger.writeLine(this->expect_return);
-        logger.writeComma("Risk");
-        logger.writeLine(this->risk);
-        logger.writeComma("gBest");
+//        logger.writeComma("Expected return");
+//        logger.writeComma(this->expect_return);
+//        logger.writeComma("Risk");
+//        logger.writeComma(this->risk);
+//        logger.writeComma("gBest");
         logger.writeLine(this->gBest);
 
 
-        for (int i = 0; i < this->num_of_day; i++) {
-            logger.write("FS(");
-            logger.write(i + 1);
-            logger.writeComma(")");
-            for (int j = 0; j < num_of_stock; j++) {
-                if (this->binarySolution[j] == 1) {
-                    logger.writeComma(this->stock[j].fs[i]);
-                }
-            }
-            logger.writeComma(this->FS[i]);
-            logger.writeLine("");
-        }
-        logger.writeLine("");
+//        for (int i = 0; i < this->num_of_day; i++) {
+//            logger.write("FS(");
+//            logger.write(i + 1);
+//            logger.writeComma(")");
+//            for (int j = 0; j < num_of_stock; j++) {
+//                if (this->binarySolution[j] == 1) {
+//                    logger.writeComma(this->stock[j].fs[i]);
+//                }
+//            }
+//            logger.writeComma(this->FS[i]);
+//            logger.writeComma("");
+//        }
+//        logger.writeComma("");
     };
 
     void allAlign(int period) const {
