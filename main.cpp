@@ -2,8 +2,7 @@
 #include <cfloat>
 #include <chrono>
 
-#define STOCK 0
-Logger logger("../log/Irene_result.csv", 20);
+#define STOCK 2
 
 void test(int p, int a, int b, int c, int d, int e, int f, int g) {
     int period = p - 1;
@@ -38,48 +37,7 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
     }
 
     double fitness = 0.0;
-    for (int i = 0; i <= PERCENT; i++) {
-        fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
-                                    stock_d, stock_e, stock_f, stock_g, i, i, i, i, i, i,
-                                    PERCENT - i, -1);
-//        std::cout << fitness << endl;
-        if (best < fitness) {
-            best = fitness;
-            allot_a = i;
-            allot_b = i;
-            allot_c = i;
-            allot_d = i;
-            allot_e = i;
-            allot_f = i;
-            allot_g = PERCENT - i;
-        }
-    }
-    int eq = PERCENT / 2;
-    logger.writeSpace(tag);
-    logger.writeComma(p);
-    logger.write(FUND * allot_a / PERCENT);
-    logger.writeComma("");
-    logger.write(":");
-    logger.writeComma("");
-    logger.writeComma(FUND * allot_g / PERCENT);
-//    std::cout << model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-//                                   stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
-//                                   allot_g, -1) << endl;
-//    std::cout << model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-//                                   stock_e, stock_f, stock_g, eq, eq, eq, eq, eq, eq, eq, -1) << endl;
-    logger.writeComma(stock_a);
-    logger.writeComma(stock_g);
-    logger.writeComma(model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-                                        stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
-                                        allot_g, -1));
-    logger.writeComma(model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-                                        stock_e, stock_f, stock_g, eq, eq, eq, eq, eq, eq, eq, -1));
-    logger.writeComma(model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-                                        stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
-                                        allot_g, -1) -
-                      model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-                                        stock_e, stock_f, stock_g, eq, eq, eq, eq, eq, eq, eq, -1));
-    logger.writeLine("");
+
 
 #if STOCK == 1
     fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
@@ -101,9 +59,12 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
             allot_g = PERCENT - i;
         }
     }
-    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
-                                allot_g, 6);
+    model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                      stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                      allot_g, 6);
+
+    model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                      stock_e, stock_f, stock_g, 50, 50, 50, 50, 50, 50, 50, 6);
 #elif STOCK == 3
     for (int i = 0; i <= PERCENT; i++) {
         for (int j = 0; j <= PERCENT - i; j++) {
@@ -201,222 +162,394 @@ void test(int p, int a, int b, int c, int d, int e, int f, int g) {
                                 stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
                                 allot_g, 6);
 #elif STOCK == 7
-    for (int i = 0; i <= PERCENT; i++) {
-        for (int j = 0; j <= PERCENT - i; j++) {
-            for (int k = 0; k <= PERCENT - i - j; k++) {
-                for (int l = 0; l <= PERCENT - i - j - k; l++) {
-                    for (int m = 0; m <= PERCENT - i - j - k - l; m++) {
-                        for (int n = 0; n <= PERCENT - i - j - k - l - m; n++) {
-                            fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c,
-                                                        stock_d,
-                                                        stock_e, stock_f, stock_g, i, j, k, l, m, n,
-                                                        PERCENT - i - j - k - l - m - n, -1);
-                            if (best < fitness) {
-                                best = fitness;
-                                allot_a = i;
-                                allot_b = j;
-                                allot_c = k;
-                                allot_d = l;
-                                allot_e = m;
-                                allot_f = n;
-                                allot_g = PERCENT - i - j - k - l - m - n;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    fitness = model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
-                                stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
-                                allot_g, 6);
+    model->one_to_two(period, particle.binarySolution, stock_a, stock_b, stock_c, stock_d,
+                               stock_e, stock_f, stock_g, allot_a, allot_b, allot_c, allot_d, allot_e, allot_f,
+                               allot_g, 6);
 #endif
 }
 
 int main() {
     auto start = std::chrono::steady_clock::now();
-    int pe;
+    int pe ;
     int a;
     int b;
+
     if (tag == "US/Y2Y") {
-        pe = 4;
-        a = 2;
-        b = 19;
+        pe = 2;
+        a = 5;
+        b = 20;
         test(pe, a, a, a, a, a, a, b);
     } else if (tag == "US/Y2H") {
-        pe = 7;
-        a = 2;
-        b = 19;
+        pe = 9;
+        a = 5;
+        b = 20;
         test(pe, a, a, a, a, a, a, b);
-    } else if (tag == "US/Y2M") {
-        pe = 37;
-        a = 2;
-        b = 19;
+    }  else if (tag == "US/Y2Q") {
+        pe = 16;
+        a = 5;
+        b = 20;
         test(pe, a, a, a, a, a, a, b);
+        pe = 17;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 24;
+        a = 1;
+        b = 2;
+        test(pe, a, a, a, a, a, a, b);
+    }else if (tag == "US/Y2M") {
         pe = 38;
         a = 2;
-        b = 19;
+        b = 5;
         test(pe, a, a, a, a, a, a, b);
-        pe = 65;
-        a = 17;
-        b = 19;
+        pe = 39;
+        a = 2;
+        b = 5;
         test(pe, a, a, a, a, a, a, b);
-        pe = 68;
-        a = 1;
-        b = 17;
+        pe = 45;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 46;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 48;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 49;
         test(pe, a, a, a, a, a, a, b);
         pe = 69;
         a = 1;
-        b = 17;
+        b = 2;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 70;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 84;
+        a = 1;
+        b = 5;
         test(pe, a, a, a, a, a, a, b);
     } else if (tag == "US/H2H") {
-        pe = 13;
-        a = 14;
-        b = 18;
+        pe = 6;
+        a = 2;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 8;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 9;
+        a = 0;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 11;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 12;
+        a = 1;
+        b = 2;
         test(pe, a, a, a, a, a, a, b);
     } else if (tag == "US/H2Q") {
-        pe = 25;
-        a = 14;
-        b = 18;
+        pe = 15;
+        a = 5;
+        b = 20;
         test(pe, a, a, a, a, a, a, b);
-        pe = 28;
+        pe = 16;
+        a = 2;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 17;
+        a = 0;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 21;
         a = 1;
-        b = 14;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 22;
+        a = 1;
+        b = 2;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 23;
         test(pe, a, a, a, a, a, a, b);
     } else if (tag == "US/H2M") {
-        pe = 42;
-        a = 9;
-        b = 12;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 65;
+        pe = 31;
         a = 2;
-        b = 16;
+        b = 5;
         test(pe, a, a, a, a, a, a, b);
-        pe = 72;
-        a = 9;
-        b = 18;
+        pe = 35;
         test(pe, a, a, a, a, a, a, b);
-        pe = 73;
-        a = 14;
-        b = 18;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 77;
-        a = 7;
-        b = 14;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 78;
-        a = 5;
-        b = 14;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 81;
-        a = 14;
-        b = 17;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 82;
-        a = 1;
-        b = 14;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 83;
-        a = 12;
-        b = 14;
-        test(pe, a, a, a, a, a, a, b);
-    } else if (tag == "US/H#") {
-        pe = 14;
-        a = 14;
-        b = 18;
-        test(pe, a, a, a, a, a, a, b);
-    } else if (tag == "US/Q2Q") {
-        pe = 14;
-        a = 12;
-        b = 18;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 27;
-        a = 12;
-        b = 17;
-        test(pe, a, a, a, a, a, a, b);
-    } else if (tag == "US/Q2M") {
-        pe = 40;
-        a = 12;
-        b = 18;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 54;
-        a = 5;
-        b = 7;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 63;
-        a = 2;
-        b = 13;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 65;
-        a = 2;
-        b = 15;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 66;
-        a = 11;
-        b = 15;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 72;
-        a = 9;
-        b = 18;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 74;
-        a = 7;
-        b = 14;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 78;
-        a = 14;
-        b = 17;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 79;
-        a = 12;
-        b = 17;
-        test(pe, a, a, a, a, a, a, b);
-    } else if (tag == "US/Q#") {
-        pe = 17;
-        a = 12;
-        b = 18;
-        test(pe, a, a, a, a, a, a, b);
-    } else if (tag == "US/M2M") {
-        pe = 37;
-        a = 12;
-        b = 14;
+        pe = 36;
         test(pe, a, a, a, a, a, a, b);
         pe = 39;
-        a = 11;
+        a = 1;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 43;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 45;
+        a = 2;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 46;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 49;
+        a = 0;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 61;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 64;
+        a = 1;
+        b = 2;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 66;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 67;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 69;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 71;
+        a = 0;
+        b = 1;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 84;
+        a = 0;
+        b = 3;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/H#") {
+        pe = 7;
+        a = 2;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 9;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 10;
+        a = 0;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 12;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 13;
+        a = 1;
+        b = 2;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Q2Q") {
+        pe = 11;
+        a = 2;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 13;
+        a = 2;
+        b = 3;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 14;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 17;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 18;
+        a = 0;
+        b = 1;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 19;
+        a = 2;
+        b = 6;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 20;
+        a = 6;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 21;
+        a = 2;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 28;
+        a = 0;
+        b = 3;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Q2M") {
+        pe = 29;
+        a = 2;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 30;
+        test(pe, a, a, a, a, a, a, b);
+       pe = 31;
+        test(pe, a, a, a, a, a, a, b);
+       pe = 33;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 36;
+        a = 1;
+        b = 2;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 37;
+        a = 2;
+        b = 3;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 40;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 49;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 50;
+        a = 0;
         b = 20;
         test(pe, a, a, a, a, a, a, b);
         pe = 52;
+        a = 0;
+        b = 1;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 53;
+        a = 0;
+        b = 6;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 54;
         a = 5;
-        b = 7;
+        b = 6;
         test(pe, a, a, a, a, a, a, b);
-        pe = 82;
-        a = 12;
-        b = 18;
+
+        pe = 55;
+        a = 2;
+        b = 6;
         test(pe, a, a, a, a, a, a, b);
-    } else if (tag == "US/M#") {
-        pe = 37;
-        a = 7;
-        b = 19;
+        pe = 58;
+        a = 6;
+        b = 20;
         test(pe, a, a, a, a, a, a, b);
-        pe = 45;
-        a = 1;
-        b = 14;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 48;
-        a = 12;
-        b = 14;
-        test(pe, a, a, a, a, a, a, b);
-        pe = 50;
-        a = 11;
+        pe = 61;
+        a = 2;
         b = 20;
         test(pe, a, a, a, a, a, a, b);
         pe = 63;
-        a = 5;
-        b = 7;
+        a = 2;
+        b = 3;
         test(pe, a, a, a, a, a, a, b);
+        pe = 68;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 77;
+        a = 0;
+        b = 1;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 82;
+        a = 0;
+        b = 3;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/Q#") {
+        pe = 14;
+        a = 2;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 16;
+        a = 2;
+        b = 3;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 17;
+        a = 5;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 20;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 21;
+        a = 0;
+        b = 1;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 22;
+        a = 2;
+        b = 6;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 23;
+        a = 6;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 24;
+        a = 2;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/M2M") {
+        pe = 36;
+        a = 2;
+        b = 3;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 40;
+        a = 0;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 41;
+        a = 2;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 44;
+        a = 1;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 48;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 54;
+        a = 3;
+        b = 6;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 57;
+        a = 0;
+        b = 6;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 59;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 61;
+        a = 3;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 62;
+        a = 2;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 66;
+        a = 1;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 67;
+        a = 2;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 68;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 70;
+        a = 1;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 72;
+        a = 6;
+        b = 20;
+        test(pe, a, a, a, a, a, a, b);
+        pe = 83;
+        a = 0;
+        b = 5;
+        test(pe, a, a, a, a, a, a, b);
+    } else if (tag == "US/M#") {
+
     }
 
-
+/*
     if (tag == "US/Y2Y") {
         for (int i = 2; i <= 7; i++) {
             std::cout << "period: " << i << " / " << 7 << " " << endl;
@@ -744,7 +877,7 @@ int main() {
             }
         }
     }
-
+*/
 
 //    srand(114);
 /*

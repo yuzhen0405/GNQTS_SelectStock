@@ -60,8 +60,8 @@ public:
     };
 
     void align(int period) const {
-        Logger logger("../log/" + tag + "/Irene_result_" + trainPeriod[period], 20);
-
+        Logger logger("../log/Irene_result.csv", 20);
+        logger.writeComma(tag);
         logger.writeComma("Period");
         logger.writeComma(period + 1);
         logger.writeComma("Stock#");
@@ -99,7 +99,6 @@ public:
 //        logger.writeComma(this->risk);
 //        logger.writeComma("gBest");
         logger.writeLine(this->gBest);
-
 
 //        for (int i = 0; i < this->num_of_day; i++) {
 //            logger.write("FS(");
